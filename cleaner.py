@@ -6,9 +6,7 @@ script, main_path = argv
 
 print ("Your path",main_path)
 
-#main_path = r"\Users\user\Desktop\HW6\junk"
 
-# key names will be folder names!
 extensions = {'video': ['mp4', 'mov', 'avi', 'mkv'],
               'audio': ['mp3', 'wav', 'ogg', 'amr'],
               'images': ['jpg', 'png', 'jpeg', 'svg'],
@@ -44,7 +42,7 @@ subfolder_paths = []
 
 def paths (path, level = 1):
     
-    names_dir = os.listdir(path) # все в папці мотлох
+    names_dir = os.listdir(path) 
     
     file_paths.extend ([f.path for f in os.scandir(path) if not f.is_dir()])
 
@@ -52,8 +50,8 @@ def paths (path, level = 1):
     for elem in names_dir:
         if os.path.isdir(path + "\\" + elem):
            
-            # перелік папок в в папці мотлох
-            paths (path + "\\" + elem, level + 1) # запускає проходження по папках
+          
+            paths (path + "\\" + elem, level + 1)
            
     return file_paths, subfolder_paths
     
@@ -67,12 +65,12 @@ def sort_files(path):
         file_path = str(file_path)
         extension = file_path.split('.')[-1]
         file_name = file_path.split('\\')[-1]
-        #print (file_name)
+       
       
         for dict_key_int in range(len(ext_list)):
             
             if extension in ext_list[dict_key_int][1]:
-                #print(f'Moving {file_name} in {ext_list[dict_key_int][0]} folder\n')
+                
                 shutil.move(file_path, f'{main_path}\\{ext_list[dict_key_int][0]}\\{normalize(file_name)}')
     for ar_file in os.listdir(main_path + "\\" + "archives"):
         try:

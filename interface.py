@@ -1,7 +1,13 @@
+from sublayers.address_book import main as address_book
+from sublayers.notebook import main as note_book
+
+def plug():
+    print('Do something')
+
 class Handler:
-    sublayers = {('1', 'ab', 'address book'): 'Address Book',
-                  ('2', 'nb', 'note book'): 'Note Book',
-                  ('3', 'sa', 'sorter assist'): 'Sorter Assist'}
+    sublayers = {('1', 'ab', 'address book'): address_book,
+                  ('2', 'nb', 'note book'): note_book,
+                  ('3', 'sa', 'sorter assist'): plug}
 
     def __init__(self):
         print('Bot activated')
@@ -10,21 +16,9 @@ class Handler:
         for keywords in self.sublayers.keys():
             if query in keywords:
                 self.run_sublayer(self.sublayers[keywords])
-        else:
-            print('Wrong command')
 
     def run_sublayer(self, sublayer):
-        print(f'You are in {sublayer}')
-        stop_words = ('back')
-        def run_command():
-            while True:
-                query = input('> ')
-                if query not in stop_words:
-                    print(f'Some {sublayer} command')
-                else:
-                    print('You are in main menu')
-                    break
-        return run_command()
+        return sublayer()
 
 
 if __name__ == '__main__':

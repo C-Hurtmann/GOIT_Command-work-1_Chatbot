@@ -41,8 +41,9 @@ file_paths = []
 subfolder_paths = []
 
 def paths (path, level = 1):
-    
+
     names_dir = os.listdir(path) # все в папці мотлох
+
     
     file_paths.extend ([f.path for f in os.scandir(path) if not f.is_dir()])
 
@@ -50,8 +51,8 @@ def paths (path, level = 1):
     for elem in names_dir:
         if os.path.isdir(path + "\\" + elem):
            
-           
             paths (path + "\\" + elem, level + 1) 
+   
            
     return file_paths, subfolder_paths
     

@@ -1,4 +1,4 @@
-from sublayers.address_book import main as address_book
+from sublayers.address_book import main as address_book, Adapter
 from sublayers.notebook import main as note_book
 
 
@@ -19,7 +19,28 @@ class Handler:
                 self.run_sublayer(self.sublayers[keywords])
 
     def run_sublayer(self, sublayer):
-        return sublayer()
+        print('You are in sublayer')
+        back_words = ('back')
+        if sublayer == address_book:
+            while True:
+                query = input('> ')
+                if query == 'add':
+                    name = input('Enter contact name: ')
+                    phone = input('Enter contact phone: ')
+                    email = input('Enter contact Birthday: ')
+                    Adapter().add_contact(name, phone, email)
+                else:
+                    print('Not ready yet')
+
+        def run_commands(*args):
+            while True:
+                query = input('> ')
+                if query in back_words:
+                    print('You are went back to main menu')
+                    break
+                return sublayer(*args)
+            return run_commands
+
 
 
 if __name__ == '__main__':

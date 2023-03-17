@@ -363,6 +363,20 @@ def remove_contacts(address_book):
             address_book.data.clear()
     address_book.save_contacts()
 
+# --------------------------------------------------------ADAPTER-----------------------------------------------------------
+class Adapter:
+    address_book = AddressBook()
+    def add_contact(self, name, phone=None, email=None, birthday=None):
+        record = Record(Name(name))
+        if phone:
+            record.create_phone(record=record, user_input=phone, update=True)
+        if email:
+            record.create_email(record=record, user_email=email)
+        if birthday:
+            record.create_birthday(record=record, user_birthday=birthday)
+        self.address_book.add_record(record)
+        self.address_book.save_contacts()
+        
 
 if __name__ == "__main__":
     main()

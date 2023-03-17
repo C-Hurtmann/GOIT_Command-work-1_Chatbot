@@ -19,7 +19,13 @@ class NoteBook(UserDict):
         self.data[record.title.value] = record
 
     def remove_record(self, record):
-        self.data.pop(record)
+        pass
+
+    def change_record(self, record):
+        pass
+
+    def tag_sort(self):
+        pass
 
     def save_notes(self):
         with open(self.file_name, 'wb') as file:
@@ -118,9 +124,11 @@ def main():
     while True:
         print(Fore.LIGHTBLUE_EX + '__________________________________________________\n'
               'You can use following commands:\n'
-              '|add| - Add a new note\n'
-              '|remove| - remove a note\n'
+              '|add| - Add a new note in Notebook\n'
+              '|remove| - remove a note in Notebook\n'
+              '|change| - change a note in Notebook\n'
               '|find| - Find note in Notebook\n'
+              '|tag sort| - sorts notes by tags in Notebook\n'
               '|show all| - Shows the entire Notebook\n'
               '|close, exit, goodbye or .| - Closing the program\n'
               '__________________________________________________\n')
@@ -128,25 +136,29 @@ def main():
         user_exit_list = ['goodbye', 'close', 'exit', '.']
         if user_inp in user_exit_list:
             print('Goodbye!\n'
-                  'Your Note has been successfully saved in the Notebook!')
+                  'Your Notebook has been successfully saved!')
             break
         elif user_inp == 'hello':
             print('How can I help you?')
             continue
         elif 'add' in user_inp:
-            add_handler(notebook)
+            add_note(notebook)
+        elif 'change' in user_inp:
+            change_note(notebook)
         elif 'find' in user_inp:
-            find_handler(notebook)
+            find_note(notebook)
         elif 'show all' in user_inp:
-            show_all_handler(notebook)
+            show_all_notes(notebook)
         elif 'remove' in user_inp:
-            remove_handler(notebook)
+            remove_note(notebook)
+        elif 'tag sort' in user_inp:
+            sort_note(notebook)
         else:
             print('Choose the right command!')
             continue
 
 
-def add_handler(notebook):
+def add_note(notebook):
     user_title = input("Enter a title: ")
     title = Title(user_title)
     record = Record(title=title)
@@ -160,13 +172,19 @@ def add_handler(notebook):
     notebook.save_notes()
 
 
-def remove_handler(notebook):
-    data = notebook.show_all_records()
-    if not data:
-        print('The notebook is empty.')
+def remove_note(notebook):
+    pass
 
 
-def show_all_handler(notebook):
+def change_note(notebook):
+    pass
+
+
+def sort_note(notebook):
+    pass
+
+
+def show_all_notes(notebook):
     data = notebook.show_all_records()
     if not data:
         print('The notebook is empty.')
@@ -177,7 +195,7 @@ def show_all_handler(notebook):
                 f"\n|Title: {title}\n|Text: {rec_data['text']}\n|#tag: {rec_data['#tag']}\n")
 
 
-def find_handler(notebook):
+def find_note(notebook):
     find_user = input('Enter title or #tag: ')
     data = notebook.show_all_records()
     if not data:

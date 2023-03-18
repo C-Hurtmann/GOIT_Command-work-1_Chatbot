@@ -2,6 +2,8 @@ import os
 import shutil
 
 
+
+
 extensions = {'video': ['mp4', 'mov', 'avi', 'mkv'],
               'audio': ['mp3', 'wav', 'ogg', 'amr'],
               'images': ['jpg', 'png', 'jpeg', 'svg'],
@@ -32,10 +34,12 @@ def create_folders_from_list(folder_path, folder_names):
 
 
 
+
 file_paths = []
 subfolder_paths = []
 
 def paths (path, level = 1):
+
 
     names_dir = os.listdir(path) 
 
@@ -47,6 +51,9 @@ def paths (path, level = 1):
         if os.path.isdir(path + "\\" + elem):
            
             paths (path + "\\" + elem, level + 1) 
+           
+    return file_paths, subfolder_paths
+
     
 
 
@@ -77,6 +84,7 @@ def sort_files(path):
     for unkn_file in names_file:
         shutil.move(path + "\\" + unkn_file, path + "\\" + normalize(unkn_file))                
 
+
 def remove_empty_folders(main_path, level = 1):
     for p in subfolder_paths:
         p = str (p)
@@ -87,6 +95,7 @@ def remove_empty_folders(main_path, level = 1):
                 remove_empty_folders(main_path + "\\" + p, level + 1)   
             except FileNotFoundError:
                pass
+
 
 
 def sorted():
@@ -100,3 +109,4 @@ def sorted():
 
 if __name__ == "__main__": 
     sorted()
+

@@ -381,6 +381,9 @@ commands = {'add': add_contacts,
             'change': change_contacts,
             'del': remove_contacts}
 
+CONFIG = ({'help': help,
+           'commands': commands,
+           'database': AddressBook()})
 
 
 if __name__ == "__main__":

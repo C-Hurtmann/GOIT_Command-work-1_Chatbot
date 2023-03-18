@@ -12,12 +12,15 @@ class Handler:
     def get_command_suggestion(self, query):
         return difflib.get_close_matches(query, self.commands.keys(), n=1, cutoff=0.6)
     
+    def execute_command(self, query):
+        self.commands[query](self.database)
+    
     def run(self):
         print(self.help)
         while True:
             query = input('> ')
             try:
-                self.commands[query](self.database)
+                self.execute_command(query)
             except KeyError:
                 suggestion = self.get_command_suggestion(query)
                 if suggestion:

@@ -28,18 +28,6 @@ class Handler:
 
 
 
-#while True:
-#    query = input('> ')
-#    try:
-#        AB.commands[query](AB.address_book)
-#    except KeyError:
-#        suggestion = difflib.get_close_matches(query, list(AB.commands.keys()), n=1, cutoff=0.6)
-#        if suggestion:
-#            print(f'Did you mean {suggestion[0]}?')
-#        else:
-#            print('ERROR: Invalid command')
-#            print(command_map)
-
 if __name__ == '__main__':
     handler = Handler(help=help, commands=commands, database=AddressBook())
     handler.run()

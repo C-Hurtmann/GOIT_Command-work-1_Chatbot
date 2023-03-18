@@ -19,6 +19,8 @@ class Handler:
         print(self.help)
         while True:
             query = input('> ')
+            if query == 'back':
+                break
             try:
                 self.execute_command(query)
             except KeyError:

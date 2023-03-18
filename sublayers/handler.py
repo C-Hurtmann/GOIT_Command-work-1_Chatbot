@@ -1,6 +1,6 @@
 import difflib
 
-from address_book import AddressBook, commands, help
+from sublayers.address_book import AddressBook, commands, help
 
 
 class Handler:
@@ -19,6 +19,8 @@ class Handler:
         print(self.help)
         while True:
             query = input('> ')
+            if query == 'back':
+                break
             try:
                 self.execute_command(query)
             except KeyError:

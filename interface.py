@@ -1,30 +1,34 @@
-from sublayers.address_book import main as address_book
-from sublayers.notebook import main as note_book
+import inquirer
+
+from sublayers.address_book import CONFIG as ab_config
+from sublayers.handler import Handler
 
 
-def plug():
-    print('Do something')
+main_menu = [
+    inquirer.List('option',
+                  message='You are in main menu. Please select an option:',
+                  choices=[
+                      'Address Book',
+                      'Note Book',
+                      'Sorter Assist',
+                      'Exit'
+                  ])
+]
 
-class Handler:
-    sublayers = {('1', 'ab', 'address book'): address_book,
-                  ('2', 'nb', 'note book'): note_book,
-                  ('3', 'sa', 'sorter assist'): plug}
-
-    def __init__(self):
-        print('Bot activated')
-
-    def run(self, query: str):
-        for keywords in self.sublayers.keys():
-            if query in keywords:
-                self.run_sublayer(self.sublayers[keywords])
-
-    def run_sublayer(self, sublayer):
-        return sublayer()
-
-
-if __name__ == '__main__':
-    handler = Handler()
+if __name__ =='__main__':
     while True:
-        query = input('> ')
-        handler.run(query)
-        print('-' * 50)
+        main_choice = inquirer.prompt(main_menu)['option']
+
+        if main_choice == 'Address Book':
+            handler = Handler(**ab_config)
+            handler.run()
+
+        elif main_choice == 'Note Book':
+            print('Not ready yet')
+
+        elif main_choice == 'Sorter Assist':
+            print('Not reay yet')
+        
+        elif main_choice == 'Exit':
+            print("Exiting program...")
+            break

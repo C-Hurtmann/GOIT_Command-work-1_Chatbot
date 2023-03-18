@@ -372,14 +372,15 @@ help = ('|You can use following commands:\n'
           '|get bith - Show birthdays\n'
           '|change - Change contact\n'
           '|del - Delete contact from address book\n'
-          '|close, exit, good bye or . - Closing the program\n')
+          '|back - Closing the sublayer\n')
 
 commands = {'add': add_contacts,
             'find': find_contacts,
             'show all': show_all_contacts,
             'get bith': birthday_contacts,
             'change': change_contacts,
-            'del': remove_contacts}
+            'del': remove_contacts,
+            'back': ...}
 
 CONFIG = ({'help': help,
            'commands': commands,

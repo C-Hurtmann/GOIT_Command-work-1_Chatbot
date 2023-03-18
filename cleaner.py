@@ -1,11 +1,7 @@
 import os
 import shutil
-from  sys import argv
 
-script, main_path = argv
-
-print ("Your path",main_path)
-
+main_path = input("Enter path for folder: ")
 
 extensions = {'video': ['mp4', 'mov', 'avi', 'mkv'],
               'audio': ['mp3', 'wav', 'ogg', 'amr'],
@@ -33,7 +29,7 @@ def normalize(name):
 def create_folders_from_list(folder_path, folder_names):
     for folder in folder_names:
         if not os.path.exists(f'{folder_path}\\{folder}'):
-            print (os.mkdir(f'{folder_path}\\{folder}'))
+            os.mkdir(f'{folder_path}\\{folder}')
 
 
 
@@ -42,7 +38,7 @@ subfolder_paths = []
 
 def paths (path, level = 1):
 
-    names_dir = os.listdir(path) # все в папці мотлох
+    names_dir = os.listdir(path) 
 
     
     file_paths.extend ([f.path for f in os.scandir(path) if not f.is_dir()])
@@ -52,9 +48,6 @@ def paths (path, level = 1):
         if os.path.isdir(path + "\\" + elem):
            
             paths (path + "\\" + elem, level + 1) 
-   
-           
-    return file_paths, subfolder_paths
     
 
 
@@ -73,6 +66,7 @@ def sort_files(path):
             if extension in ext_list[dict_key_int][1]:
                 
                 shutil.move(file_path, f'{main_path}\\{ext_list[dict_key_int][0]}\\{normalize(file_name)}')
+
     for ar_file in os.listdir(main_path + "\\" + "archives"):
         try:
             shutil.unpack_archive(main_path + "\\" + "archives" + "\\" + ar_file,main_path + "\\" + "archives")
@@ -95,12 +89,14 @@ def remove_empty_folders(main_path, level = 1):
                pass
 
 
-def main():
+def sorted():
+    
     create_folders_from_list(main_path, extensions)
     paths (main_path)
     sort_files(main_path)
     remove_empty_folders (main_path)
+    print ("Your files are sorted")
 
 
 if __name__ == "__main__": 
-    main()
+    sorted()

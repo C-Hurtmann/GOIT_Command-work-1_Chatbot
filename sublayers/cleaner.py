@@ -99,13 +99,18 @@ def remove_empty_folders(main_path, level = 1):
 
 
 def sorted():
-    main_path = input("Enter path for folder: ")
-    create_folders_from_list(main_path, extensions)
-    paths (main_path)
-    sort_files(main_path)
-    remove_empty_folders (main_path)
-    print ("Your files are sorted")
-
+    while True:
+        main_path = input("Enter path for folder: ")
+        user_exit_list = ['good bye', 'close', 'exit', '.']
+        if main_path in user_exit_list:
+            print('Good bye!')
+            break
+        else: 
+            create_folders_from_list(main_path, extensions)
+            paths (main_path)
+            sort_files(main_path)
+            remove_empty_folders (main_path)
+            print ("Your files are sorted")
 
 if __name__ == "__main__": 
     sorted()

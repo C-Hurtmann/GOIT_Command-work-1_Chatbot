@@ -364,6 +364,25 @@ def remove_contacts(address_book):
     address_book.save_contacts()
 
 
+# ------------------------------------------------ADAPTER-------------------------------------------------------
+help = ('|You can use following commands:\n'
+          '|add - Add new contact\n'
+          '|find - Find contact in Address Book\n'
+          '|show all - Shows the entire Address Book\n'
+          '|get bith - Show birthdays\n'
+          '|change - Change contact\n'
+          '|del - Delete contact from address book\n'
+          '|close, exit, good bye or . - Closing the program\n')
+
+commands = {'add': add_contacts,
+            'find': find_contacts,
+            'show all': show_all_contacts,
+            'get bith': birthday_contacts,
+            'change': change_contacts,
+            'del': remove_contacts}
+
+
+
 if __name__ == "__main__":
     main()
 

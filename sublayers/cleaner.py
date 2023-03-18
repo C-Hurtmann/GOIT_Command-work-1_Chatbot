@@ -79,6 +79,8 @@ def sort_files(path):
             shutil.unpack_archive(path + "/" + "archives" + "/" + ar_file, path + "/" + "archives") or shutil.unpack_archive(path + "\\" + "archives" + "\\" + ar_file, path + "\\" + "archives")
         except shutil.ReadError:
             pass
+        except UnboundLocalError:
+            pass
        
     names_file = [name for name in os.listdir(path) if os.path.isfile(os.path.join(path,name))]
     for unkn_file in names_file:

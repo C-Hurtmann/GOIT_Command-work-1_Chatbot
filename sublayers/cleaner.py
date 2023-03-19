@@ -97,7 +97,7 @@ def remove_empty_folders(main_path, level = 1):
 
 
 
-def sorted():
+def sort():
     while True:
         main_path = input("Enter path for folder: ")
         user_exit_list = ['good bye', 'close', 'exit', '.']
@@ -118,12 +118,12 @@ help = ('|You can use following commands:\n'
           '|sort - Sorting the folder\n'
           '|back - Closing the sublayer\n')
 
-commands = {'sort': sorted,
+commands = {'sort': sort,
             'back': ...}
 
 CONFIG = ({'help': help,
            'commands': commands})
 
 if __name__ == "__main__": 
-    sorted()
+    sort()
 

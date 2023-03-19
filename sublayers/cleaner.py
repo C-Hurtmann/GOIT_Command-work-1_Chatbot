@@ -2,8 +2,6 @@ import os
 import shutil
 
 
-
-
 extensions = {'video': ['mp4', 'mov', 'avi', 'mkv'],
               'audio': ['mp3', 'wav', 'ogg', 'amr'],
               'images': ['jpg', 'png', 'jpeg', 'svg'],
@@ -113,6 +111,18 @@ def sorted():
             remove_empty_folders (main_path)
             print (" Your files are sorted.\n","Deleting empty folders")
 
+
+# ------------------------------------------------ADAPTER-------------------------------------------------------
+
+help = ('|You can use following commands:\n'
+          '|sort - Sorting the folder\n'
+          '|back - Closing the sublayer\n')
+
+commands = {'sort': sorted,
+            'back': ...}
+
+CONFIG = ({'help': help,
+           'commands': commands})
 
 if __name__ == "__main__": 
     sorted()

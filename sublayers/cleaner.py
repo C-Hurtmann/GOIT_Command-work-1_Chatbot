@@ -2,8 +2,6 @@ import os
 import shutil
 
 
-
-
 extensions = {'video': ['mp4', 'mov', 'avi', 'mkv'],
               'audio': ['mp3', 'wav', 'ogg', 'amr'],
               'images': ['jpg', 'png', 'jpeg', 'svg'],
@@ -105,6 +103,7 @@ def sorted():
     sort_files(main_path)
     remove_empty_folders (main_path)
     print ("Your files are sorted")
+
 
 
 if __name__ == "__main__": 

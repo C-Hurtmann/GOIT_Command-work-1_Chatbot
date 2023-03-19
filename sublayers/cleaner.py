@@ -71,7 +71,7 @@ def sort_files(path):
 
                 shutil.move(file_path, f'{path}/{ext_list[dict_key_int][0]}/{normalize(file_name)}') or shutil.move(file_path, f'{path}\\{ext_list[dict_key_int][0]}\\{normalize(file_name)}')
 
-    for ar_file in os.listdir(path + "/" + "archives") or ar_file in os.listdir(path + "\\" + "archives"):
+    for ar_file in os.listdir(path + "/" + "archives"): #or ar_file in os.listdir(path + "\\" + "archives"):
 
         try:
             shutil.unpack_archive(path + "/" + "archives" + "/" + ar_file, path + "/" + "archives") or shutil.unpack_archive(path + "\\" + "archives" + "\\" + ar_file, path + "\\" + "archives")

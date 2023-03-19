@@ -105,6 +105,17 @@ def sorted():
     print ("Your files are sorted")
 
 
+# ------------------------------------------------ADAPTER-------------------------------------------------------
+
+help = ('|You can use following commands:\n'
+          '|sort - Sorting the folder\n'
+          '|back - Closing the sublayer\n')
+
+commands = {'sort': sorted,
+            'back': ...}
+
+CONFIG = ({'help': help,
+           'commands': commands})
 
 if __name__ == "__main__": 
     sorted()

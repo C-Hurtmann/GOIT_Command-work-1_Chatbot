@@ -1,6 +1,8 @@
 import inquirer
 
 from sublayers.address_book import CONFIG as ab_config
+from sublayers.notebook import CONFIG as nb_config
+from sublayers.cleaner import CONFIG as sa_config
 from sublayers.handler import Handler
 
 
@@ -24,10 +26,12 @@ if __name__ =='__main__':
             handler.run()
 
         elif main_choice == 'Note Book':
-            print('Not ready yet')
+            handler = Handler(**nb_config)
+            handler.run()
 
         elif main_choice == 'Sorter Assist':
-            print('Not reay yet')
+            handler = Handler(**sa_config)
+            handler.run()
         
         elif main_choice == 'Exit':
             print("Exiting program...")

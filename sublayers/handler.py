@@ -13,7 +13,9 @@ class Handler:
         return difflib.get_close_matches(query, self.commands.keys(), n=1, cutoff=0.6)
     
     def execute_command(self, query):
-        self.commands[query](self.database)
+        if self.database:
+            self.commands[query](self.database)
+        self.commands[query]()
     
     def run(self):
         print(self.help)
@@ -28,7 +30,7 @@ class Handler:
                 if suggestion:
                     print(f'Did you mean {suggestion[0]}?')
                 else:
-                    print('ERROR: Invalid command')
+                    print('Invalid command')
                     print(self.help)
 
 

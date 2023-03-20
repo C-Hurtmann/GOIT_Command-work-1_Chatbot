@@ -142,7 +142,6 @@ class Tag(Field):
             raise ValueError
 
 
-"""
 def main():
     notebook = Notebook()
     print(Fore.LIGHTBLUE_EX + '-' * 52)
@@ -180,7 +179,6 @@ def main():
         else:
             print('Choose the right command!')
             continue
-"""
 
 
 class CommandsHandler:
@@ -286,7 +284,7 @@ class CommandsHandler:
                     else:
                         print(f'{change} invalid choice')
                         return
-            self.save_notes()
+            self.notebook.save_notes()
 
     def remove_note(self):
         print('|del - Delete note|\n'
@@ -305,7 +303,7 @@ class CommandsHandler:
             elif question == 'y':
                 print('lol')
                 self.notebook.data.clear()
-        self.save_notes()
+        self.notebook.save_notes()
 
 
 # ------------------------------------------------ADAPTER-------------------------------------------------------

@@ -102,6 +102,11 @@ def sort():
     sort_files(main_path)
     remove_empty_folders (main_path)
     print (" Your files are sorted.\n","Deleting empty folders")
+    for name_dir in os.listdir(main_path):
+        print()
+        print (f"{name_dir.capitalize()}: ")
+        for name_fale in os.listdir(main_path + "/" + name_dir):
+            print (f"    - {name_fale}")
 
 
 # ------------------------------------------------ADAPTER-------------------------------------------------------
@@ -116,6 +121,6 @@ commands = {'sort': sort,
 CONFIG = ({'help': help,
            'commands': commands})
 
-
+ 
 if __name__ == "__main__": 
     sort()

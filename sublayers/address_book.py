@@ -304,13 +304,15 @@ class CommandsHandler:
                     print(f"Name: {name}, Phone: {rec_data['phone']}, "
                           f"Email: {rec_data['email']}, "
                           f"Birthday: {rec_data['birthday']}")
-                phone = getattr(record, 'phone', '')
-                if phone:
-                    if phone.value.startswith(find_user):
-                        flag = True
-                        print(f"Name: {name}, Phone: {rec_data['phone']}, "
-                              f"Email: {rec_data['email']}, "
-                              f"Birthday: {rec_data['birthday']}")
+                phones = getattr(record, 'phones', '')
+
+                if phones:
+                    for phone in phones:
+                        if phone.value.startswith(find_user):
+                            flag = True
+                            print(f"Name: {name}, Phone: {rec_data['phone']}, "
+                                  f"Email: {rec_data['email']}, "
+                                  f"Birthday: {rec_data['birthday']}")
             if not flag:
                 print(Style.BRIGHT+Fore.RED+'Contact with this name or '
                                             'phone number was not found.')
@@ -347,6 +349,7 @@ class CommandsHandler:
             print(Style.BRIGHT+Fore.RED+'The address book is empty.')
         else:
             flag = False
+            update_name_data = {}
             for name, record in data.items():
                 rec_data = record.formatting_record(record)
                 if name.startswith(change_user):
@@ -388,6 +391,7 @@ class CommandsHandler:
                         new_name = input(Style.BRIGHT+Fore.CYAN +
                                          'Enter new name: ')
                         record.name = Name(new_name)
+                        update_name_data[name] = new_name
                         print(record.name.value)
                     elif change == 5:
                         num = input(Style.BRIGHT+Fore.CYAN +
@@ -410,6 +414,9 @@ class CommandsHandler:
                         print(Style.BRIGHT+Fore.RED +
                               f'{change} invalid choice')
                         return
+            for name, new_name in update_name_data.items():
+                self.address_book.data[new_name] = \
+                    self.address_book.data.pop(name)
             self.address_book.save_contacts()
 
     def remove_contacts(self):

@@ -208,46 +208,6 @@ class HomeAddress(Field):
     pass
 
 
-def main():
-    address_book = AddressBook()
-    print('-' * 52)
-    print('|You can use following commands:\n'
-          '|add - Add new contact\n'
-          '|find - Find contact in Address Book\n'
-          '|show all - Shows the entire Address Book\n'
-          '|get bith - Show birthdays\n'
-          '|change - Change contact\n'
-          '|del - Delete contact from address book\n'
-          '|close, exit, good bye or . - Closing the program\n')
-    print('-' * 52)
-    while True:
-        user_inp = input(Style.BRIGHT+Fore.BLUE +
-                         'Enter command: ').lower().strip()
-        user_exit_list = ['good bye', 'close', 'exit', '.']
-        if user_inp in user_exit_list:
-            print('Good bye!\n'
-                  'Your data has been successfully saved in the Address Book!')
-            break
-        elif user_inp == 'hello':
-            print(Style.BRIGHT+Fore.BLUE + 'How can I help you?')
-            continue
-        elif 'add' in user_inp:
-            CommandsHandler().add_contacts()
-        elif 'find' in user_inp:
-            CommandsHandler().find_contacts()
-        elif 'show all' in user_inp:
-            CommandsHandler().show_all_contacts()
-        elif 'get bith' in user_inp:
-            CommandsHandler().birthday_contacts()
-        elif 'change' in user_inp:
-            CommandsHandler().change_contacts()
-        elif 'del' in user_inp:
-            CommandsHandler().remove_contacts()
-        else:
-            print(Style.BRIGHT+Fore.RED+'Choose the right command!')
-            continue
-
-
 class CommandsHandler:
     address_book = AddressBook()
 
@@ -461,7 +421,4 @@ commands = {'add': CommandsHandler().add_contacts,
 CONFIG = ({'help': help,
            'commands': commands})
 
-
-if __name__ == "__main__":
-    main()
 

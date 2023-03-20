@@ -142,6 +142,7 @@ class Tag(Field):
             raise ValueError
 
 
+"""
 def main():
     notebook = Notebook()
     print(Fore.LIGHTBLUE_EX + '-' * 52)
@@ -179,6 +180,7 @@ def main():
         else:
             print('Choose the right command!')
             continue
+"""
 
 
 class CommandsHandler:

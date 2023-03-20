@@ -23,14 +23,17 @@ for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION):
 
 def normalize(name):
     name = Path(name).name 
+
     new_name = name.translate(TRANS)
     return new_name 
 
 def create_folders_from_list(folder_path, folder_names):
     for folder in folder_names:
         try:
+
             if not os.path.exists(f'{folder_path}/{folder}'):
                 os.mkdir(f'{folder_path}/{folder}')
+
         except FileExistsError:
             pass
 
@@ -45,8 +48,10 @@ def paths (path, level = 1):
 
     subfolder_paths.extend ([f.path for f in os.scandir(path) if f.is_dir()])
     for elem in names_dir:
+
         if os.path.isdir(path + "/" + elem):
             paths (path + "/" + elem, level + 1)
+
            
     return file_paths, subfolder_paths
 
@@ -60,11 +65,14 @@ def sort_files(path):  # TODO create folder for files with unknown extention
     for file_path in file_paths:
         file_path = str(file_path)
         extension = file_path.split('.')[-1]
+
         file_name = file_path.split('/')[-1]
+
        
         for dict_key_int in range(len(ext_list)):
             
             if extension in ext_list[dict_key_int][1]:
+
 
                 shutil.move(file_path, f'{path}/{ext_list[dict_key_int][0]}/{normalize(file_name)}')
                 
@@ -72,16 +80,16 @@ def sort_files(path):  # TODO create folder for files with unknown extention
         try:
             shutil.unpack_archive(path + "/" + "archives" + "/" + ar_file, path + "/" + "archives")
             os.remove(path + "/" + "archives" + "/" + ar_file)
+
         except shutil.ReadError:
             pass
         
        
     names_file = [name for name in os.listdir(path) if os.path.isfile(os.path.join(path,name))]
     for unkn_file in names_file:
+
         
             shutil.move(path + "/" + unkn_file, path + "/" + "others" + "/" + normalize(unkn_file)) 
-                    
-
 
 def remove_empty_folders(main_path, level = 1):
     for p in subfolder_paths:
@@ -109,6 +117,7 @@ def sort():
             print (f"    - {name_fale}")
 
 
+
 # ------------------------------------------------ADAPTER-------------------------------------------------------
 
 help = ('|You can use following commands:\n'
@@ -117,6 +126,8 @@ help = ('|You can use following commands:\n'
 
 commands = {'sort': sort,
             'back': ...}
+
+
 
 CONFIG = ({'help': help,
            'commands': commands})

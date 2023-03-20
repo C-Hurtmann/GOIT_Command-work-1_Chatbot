@@ -202,7 +202,7 @@ class CommandsHandler:
         self.notebook.save_notes()
 
     def show_all_notes(self):
-        data = self.show_all_records()
+        data = self.notebook.show_all_records()
         if not data:
             print('The notebook is empty.')
         else:
@@ -214,7 +214,7 @@ class CommandsHandler:
 
     def find_note(self):
         find_user = input('Enter title or #tag: ')
-        data = self.show_all_records()
+        data = self.notebook.show_all_records()
         if not data:
             print('The notebook is empty.')
         else:
@@ -242,7 +242,7 @@ class CommandsHandler:
 
     def change_note(self):
         change_user = input('Enter title of note: ')
-        data = self.show_all_records()
+        data = self.notebook.show_all_records()
         if not data:
             print('The Notebook is empty.')
         else:
@@ -292,7 +292,7 @@ class CommandsHandler:
         remove_date = input('Enter your choice: ')
         if remove_date == 'del':
             remove_note = input('Enter a title of the note to be deleted: ')
-            self.data.pop(remove_note)
+            self.notebook.data.pop(remove_note)
             print(f'Note {remove_note} deleted.')
         elif remove_date == 'del all':
             print(f'Are you sure you want to clear the Notebook?')
@@ -302,7 +302,7 @@ class CommandsHandler:
                 return
             elif question == 'y':
                 print('lol')
-                self.data.clear()
+                self.notebook.data.clear()
         self.notebook.save_notes()
 
 
@@ -325,8 +325,8 @@ commands = {'add': CommandsHandler().add_note,
             'back': ...}
 
 CONFIG = ({'help': help,
-           'commands': commands,
-           'database': Notebook()})
+           'commands': commands
+           })
 
 
 if __name__ == "__main__":

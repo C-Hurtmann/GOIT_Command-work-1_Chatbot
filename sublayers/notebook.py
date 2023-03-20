@@ -255,7 +255,7 @@ class CommandsHandler:
                     print(f"|add tag - press 1|\n"
                           f"|change title - press 2|\n"
                           f"|change text - press 3|\n"
-                          f"|change tag - press 4")
+                          f"|change tag - press 4|")
                     print("-" * 50)
                     change = int(input('Enter your choice: '))
                     if change == 1:
@@ -325,8 +325,8 @@ commands = {'add': CommandsHandler().add_note,
             'back': ...}
 
 CONFIG = ({'help': help,
-           'commands': commands,
-           'database': Notebook()})
+           'commands': commands
+           })
 
 
 if __name__ == "__main__":

@@ -422,6 +422,3 @@ CONFIG = ({'help': help,
            'commands': commands})
 
 
-if __name__ == "__main__":
-    main()
-

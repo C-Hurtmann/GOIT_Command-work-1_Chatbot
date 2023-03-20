@@ -17,7 +17,7 @@ main_menu = [
                   ])
 ]
 
-if __name__ =='__main__':
+def main():
     while True:
         main_choice = inquirer.prompt(main_menu)['option']
 
@@ -36,3 +36,6 @@ if __name__ =='__main__':
         elif main_choice == 'Exit':
             print("Exiting program...")
             break
+
+if __name__ =='__main__':
+    main()

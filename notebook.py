@@ -3,14 +3,14 @@ from collections import UserDict
 from colorama import Fore
 
 
-class NoteBook(UserDict):
+class Notebook(UserDict):
     file_name = 'Notebook.bin'
 
     def show_all_records(self):
         return self.data
 
     def iterate(self, n=1):
-        for key in self.data.items():
+        for key, _ in self.data.items():
             d_list = list(self.data.values())
             for i in range(0, len(d_list), n):
                 yield key, d_list[i:i + n]
@@ -42,12 +42,11 @@ class Record:
 
     def add_tag(self, tag):
         self.tags.append(tag)
-        print(self.tag)
 
-    def create_tag(self, record, user_input=None, update=False):
-        if user_input:
+    def create_tag(self, record, user_tag=None, update=False):
+        if user_tag:
             for _ in range(10):
-                tag = Tag(user_input)
+                tag = Tag(user_tag)
                 if update:
                     record.tags = [tag]
                 else:
@@ -58,7 +57,7 @@ class Record:
         if user_text:
             for _ in range(10):
                 text = Text(user_text)
-                record.email = text
+                record.text = text
                 break
 
     def create_title(self, record, user_title):
@@ -69,7 +68,6 @@ class Record:
                 break
 
     def formatting_record(self, record):
-
         title = getattr(record, 'title', '')
         if title:
             title_value = title.value
@@ -82,9 +80,9 @@ class Record:
         else:
             text_value = "not found"
 
-        tag = getattr(record, 'tag', '')
-        if tag:
-            tag_value = tag.value
+        tags = getattr(record, 'tags', '')
+        if tags:
+            tag_value = [tag.value for tag in tags]
         else:
             tag_value = "not found"
 
@@ -134,7 +132,7 @@ class Tag(Field):
 
 
 def main():
-    notebook = NoteBook()
+    notebook = Notebook()
     notebook.load_notes()
     print(Fore.LIGHTBLUE_EX + '-' * 52)
     print('|You can use following commands:\n'
@@ -142,7 +140,7 @@ def main():
           '|del - delete a note from Notebook\n'
           '|change - change a note in Notebook\n'
           '|find - find note in Notebook\n'
-          #'|tag sort - sorts notes by tags in Notebook\n'
+          '|tag sort - sorts notes by tags in Notebook\n'
           '|show all - shows the entire Notebook\n'
           '|close, exit, goodbye or . - closing the program\n')
     print('-' * 52)
@@ -168,7 +166,6 @@ def main():
             sort_notes_by_tag(notebook)
         elif 'show all' in user_inp:
             show_all_notes(notebook)
-
         else:
             print('Choose the right command!')
             continue
@@ -177,16 +174,17 @@ def main():
 def add_note(notebook):
     user_title = input("Enter a title: ")
     title = Title(user_title)
+    #record.title = title
     record = Record(title=title)
-    #record.create_title(record=record, user_input=user_title, update=True)
+    record.create_title(record=record, user_title=user_title)
     user_text = input("Enter a text of note: ")
     text = Text(user_text)
     record.text = text
-    #record.create_text(record=record, user_text=user_text)
+    record.create_text(record=record, user_text=user_text)
     user_tag = input("Enter a #tag: ")
     tag = Tag(user_tag)
     record.tag = tag
-    #record.create_tag(record=record, user_tag=user_tag)
+    record.create_tag(record=record, user_tag=user_tag)
     notebook.add_record(record)
     notebook.save_notes()
 
@@ -198,8 +196,8 @@ def show_all_notes(notebook):
     else:
         for title, record in data.items():
             rec_data = record.formatting_record(record)
-            print(f"|Title: {title},\n"
-                  f"|Text: {rec_data['text']},\n"
+            print(f"|Title: {title}\n"
+                  f"|Text: {rec_data['text']}\n"
                   f"|Tag: {rec_data['#tag']}\n")
 
 
@@ -214,21 +212,22 @@ def find_note(notebook):
             rec_data = record.formatting_record(record)
             if title.startswith(find_user):
                 flag = True
-                print(f"|Title: {title},\n"
-                      f"|Text: {rec_data['text']},\n"
+                print(f"|Title: {title}\n"
+                      f"|Text: {rec_data['text']}\n"
                       f"|Tag: {rec_data['#tag']}\n")
             tag = getattr(record, 'tag', '')
             if tag:
                 if tag.value.startswith(find_user):
                     flag = True
-                    print(f"|Title: {title},\n"
-                          f"|Text: {rec_data['text']},\n"
+                    print(f"|Title: {title}\n"
+                          f"|Text: {rec_data['text']}\n"
                           f"|Tag: {rec_data['#tag']}\n")
         if not flag:
             print('Note with this title or #tag was not found.')
 
 
 def sort_notes_by_tag(notebook):
+    #notebook.notes = sorted(notebook.notes, key=lambda x: x.tags)
     pass
 
 
@@ -265,7 +264,7 @@ def change_note(notebook):
                     text = input('Enter a new text: ')
                     record.create_text(
                         record=record, user_text=text)
-                    print(f'In note {title} change or append text '
+                    print(f'In note {title} change text '
                           f'{record.text.value}')
                 elif change == 4:
                     tag_add = input('Enter a tag: ')
@@ -313,13 +312,13 @@ commands = {'add': add_note,
             'del': remove_note,
             'change': change_note,
             'find': find_note,
-            # 'tag sort': sort_notes_by_tag,
+            'tag sort': sort_notes_by_tag,
             'show all': show_all_notes,
             'back': ...}
 
 CONFIG = ({'help': help,
            'commands': commands,
-           'database': NoteBook()})
+           'database': Notebook()})
 
 
 if __name__ == "__main__":

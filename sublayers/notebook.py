@@ -198,8 +198,8 @@ class CommandsHandler:
         tag = Tag(user_tag)
         record.tag = tag
         record.create_tag(record=record, user_tag=user_tag)
-        self.add_record(record)
-        self.save_notes()
+        self.notebook.add_record(record)
+        self.notebook.save_notes()
 
     def show_all_notes(self):
         data = self.show_all_records()
@@ -284,7 +284,7 @@ class CommandsHandler:
                     else:
                         print(f'{change} invalid choice')
                         return
-            self.save_notes()
+            self.notebook.save_notes()
 
     def remove_note(self):
         print('|del - Delete note|\n'
@@ -303,7 +303,7 @@ class CommandsHandler:
             elif question == 'y':
                 print('lol')
                 self.data.clear()
-        self.save_notes()
+        self.notebook.save_notes()
 
 
 # ------------------------------------------------ADAPTER-------------------------------------------------------

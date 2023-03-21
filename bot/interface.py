@@ -1,9 +1,9 @@
 import inquirer
 
-from bot.address_book import CONFIG as ab_config
-from bot.notebook import CONFIG as nb_config
-from bot.cleaner import CONFIG as sa_config
-from bot.handler import Handler
+from bot.sublayers.address_book import CONFIG as ab_config
+from bot.sublayers.notebook import CONFIG as nb_config
+from bot.sublayers.cleaner import CONFIG as sa_config
+from bot.sublayers.handler import Handler
 
 
 main_menu = [
@@ -16,6 +16,7 @@ main_menu = [
                       'Exit'
                   ])
 ]
+
 
 def main():
     while True:
@@ -36,6 +37,3 @@ def main():
         elif main_choice == 'Exit':
             print("Exiting program...")
             break
-
-if __name__ =='__main__':
-    main()

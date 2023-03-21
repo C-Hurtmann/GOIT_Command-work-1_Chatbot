@@ -5,6 +5,7 @@ import re
 from colorama import init, Fore
 from colorama import Back
 from colorama import Style
+from prettytable import PrettyTable
 init(autoreset=True)
 
 
@@ -109,8 +110,9 @@ class Record:
                                           "Enter contact Birthday: ")
 
     def home_address_create(self, record, user_address):
-        home_address = HomeAddress(user_address)
-        record.home_address = home_address
+        if user_address:
+            home_address = HomeAddress(user_address)
+            record.home_address = home_address
 
     def formatting_record(self, record):
         phones = getattr(record, 'phones', '')
@@ -314,14 +316,22 @@ class CommandsHandler:
                 rec_data = record.formatting_record(record)
                 if name.startswith(change_user):
                     flag = True
-                    print("-" * 50)
-                    print(f"|add phone - press 1|\n"
-                          f"|change email - press 2|\n"
-                          f"|change birthday - press 3|\n"
-                          f"|change name - press 4\n"
-                          f"|change phone number - press 5\n"
-                          f"|change home address - press 6")
-                    print("-" * 50)
+                    change_commands = PrettyTable()
+                    change_commands.field_names = \
+                        ["Command entry", "Command value"]
+                    change_commands.add_row(
+                        ["Press 1", "Add a phone number to a contact"])
+                    change_commands.add_row(
+                        ["Press 2", "Change contact email"])
+                    change_commands.add_row(
+                        ["Press 3", "Change contact birthday"])
+                    change_commands.add_row(
+                        ["Press 4", "Change contact name"])
+                    change_commands.add_row(
+                        ["Press 5", "Change contact phone number"])
+                    change_commands.add_row(
+                        ["Press 6", "Change contact home address"])
+                    print(change_commands)
                     change = int(input(Style.BRIGHT+Fore.CYAN +
                                        'Enter your choice: '))
                     if change == 1:
@@ -374,14 +384,23 @@ class CommandsHandler:
                         print(Style.BRIGHT+Fore.RED +
                               f'{change} invalid choice')
                         return
+                else:
+                    print(Style.BRIGHT+Fore.RED + "User not fount")
             for name, new_name in update_name_data.items():
                 self.address_book.data[new_name] = \
                     self.address_book.data.pop(name)
-            self.address_book.save_contacts()
+            if flag:
+                self.address_book.save_contacts()
 
     def remove_contacts(self):
-        print('|del - Delete user|\n'
-              '|del all - Clean Adress Book|')
+        remove_commands = PrettyTable()
+        remove_commands.field_names = \
+            [Fore.RED+"Command entry", Fore.RED+"Command value"]
+        remove_commands.add_row(
+            [Fore.RED+"del", Fore.RED+"Delete one selected contact"])
+        remove_commands.add_row(
+            [Fore.RED+"del all", Fore.RED+"Delete all address book contacts"])
+        print(remove_commands)
         remove_date = input(Style.BRIGHT+Fore.YELLOW + 'Enter your choice: ')
         if remove_date == 'del':
             remove_user = input(Style.BRIGHT+Fore.YELLOW +
@@ -401,6 +420,7 @@ class CommandsHandler:
 
 
 # ------------------------------------------------ADAPTER-------------------------------------------------------
+
 help = ('|You can use following commands:\n'
           '|add - Add new contact\n'
           '|find - Find contact in Address Book\n'

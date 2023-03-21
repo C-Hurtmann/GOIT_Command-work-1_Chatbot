@@ -37,3 +37,6 @@ def main():
         elif main_choice == 'Exit':
             print("Exiting program...")
             break
+
+if __name__ == '__main__':
+    main()

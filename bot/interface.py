@@ -1,9 +1,9 @@
 import inquirer
 
-from bot.sublayers.address_book import CONFIG as ab_config
-from bot.sublayers.notebook import CONFIG as nb_config
-from bot.sublayers.cleaner import CONFIG as sa_config
-from bot.sublayers.handler import Handler
+from address_book import CONFIG as ab_config
+from notebook import CONFIG as nb_config
+from cleaner import CONFIG as sa_config
+from handler import Handler
 
 
 main_menu = [

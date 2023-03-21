@@ -1,9 +1,9 @@
 import inquirer
 
-from sublayers.address_book import CONFIG as ab_config
-from sublayers.notebook import CONFIG as nb_config
-from sublayers.cleaner import CONFIG as sa_config
-from sublayers.handler import Handler
+from bot.sublayers.address_book import CONFIG as ab_config
+from bot.sublayers.notebook import CONFIG as nb_config
+from bot.sublayers.cleaner import CONFIG as sa_config
+from bot.sublayers.handler import Handler
 
 
 main_menu = [
@@ -17,7 +17,8 @@ main_menu = [
                   ])
 ]
 
-if __name__ =='__main__':
+
+def main():
     while True:
         main_choice = inquirer.prompt(main_menu)['option']
 

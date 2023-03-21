@@ -1,7 +1,5 @@
 import difflib
 
-from sublayers.address_book import AddressBook, commands, help
-
 
 class Handler:
     def __init__(self, help, commands, database=None):
@@ -35,6 +33,3 @@ class Handler:
 
 
 
-if __name__ == '__main__':
-    handler = Handler(help=help, commands=commands, database=AddressBook())
-    handler.run()

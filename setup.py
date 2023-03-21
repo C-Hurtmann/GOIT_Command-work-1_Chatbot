@@ -9,6 +9,6 @@ setup(
     license='MIT',
     packages=find_namespace_packages('bot'),
     install_requires=['inquirer', 'colorama'],
-    entry_points={'console_scripts': ['helper = interface:main']}
+    entry_points={'console_scripts': ['helper = bot.interface:main']}
 )
 

@@ -59,7 +59,7 @@ class Record:
         self.home_address = home_address
         if phone:
             self.phones.append(phone)
-            # print(self.phones)
+
 
     def add_phone(self, phone):
         self.phones.append(phone)
@@ -216,7 +216,8 @@ class CommandsHandler:
     def add_contacts(self):
         user_name = input(Style.BRIGHT+Fore.BLUE + "Enter contact name: ")
         if not user_name:
-            print(Style.BRIGHT+Fore.RED + "Contact name is required")
+            print("\033[4m\033[31m\033[45m{}\033[0m".format
+                  ("Contact name is required"))
             return
         else:
             name = Name(user_name)
@@ -242,7 +243,8 @@ class CommandsHandler:
     def show_all_contacts(self):
         data = self.address_book.show_all_records()
         if not data:
-            print(Style.BRIGHT+Fore.RED + 'The address book is empty.')
+            print("\033[4m\033[31m\033[45m{}\033[0m".format
+                  ('The address book is empty.'))
         else:
             for name, record in data.items():
                 rec_data = record.formatting_record(record)
@@ -256,7 +258,8 @@ class CommandsHandler:
                           'Enter contact name or phone: ')
         data = self.address_book.show_all_records()
         if not data:
-            print(Style.BRIGHT+Fore.RED+'The address book is empty.')
+            print("\033[4m\033[31m\033[45m{}\033[0m".format
+                  ('The address book is empty.'))
         else:
             flag = False
             for name, record in data.items():
@@ -278,8 +281,9 @@ class CommandsHandler:
                                   f"Email: {rec_data['email']}, "
                                   f"Birthday: {rec_data['birthday']}")
             if not flag:
-                print(Style.BRIGHT+Fore.RED+'Contact with this name or '
-                                            'phone number was not found.')
+                print("\033[4m\033[31m\033[45m{}\033[0m".format
+                      ('Contact with this name or phone number was '
+                       'not found.'))
 
     def birthday_contacts(self):
         birth_user = int(input(Style.BRIGHT+Fore.BLUE +
@@ -302,15 +306,16 @@ class CommandsHandler:
                           f"Email: {rec_data['email']}, "
                           f"Birthday: {rec_data['birthday']}")
         if not flag:
-            print(Style.BRIGHT+Fore.RED+
-                  'There are no birthdays in this range!')
+            print("\033[4m\033[31m\033[45m{}\033[0m".format
+                  ('There are no birthdays in this range!'))
 
 
     def change_contacts(self):
         change_user = input(Style.BRIGHT+Fore.CYAN + 'Enter contact name: ')
         data = self.address_book.show_all_records()
         if not data:
-            print(Style.BRIGHT+Fore.RED+'The address book is empty.')
+            print("\033[4m\033[31m\033[45m{}\033[0m".format
+                  ('The address book is empty.'))
         else:
             flag = False
             update_name_data = {}
@@ -334,23 +339,23 @@ class CommandsHandler:
                     change_commands.add_row(
                         ["Press 6", "Change contact home address"])
                     print("\033[1m\033[36m{}\033[0m".format(change_commands))
-                    change = int(input(Style.BRIGHT+Fore.CYAN +
-                                       'Enter your choice: '))
-                    if change == 1:
+                    change = input(Style.BRIGHT+Fore.CYAN +
+                                       'Enter your choice: ')
+                    if change == '1':
                         num = input(Style.BRIGHT+Fore.CYAN + 'Enter number: ')
                         record.create_phone(record=record, user_input=num,
                                             update=False)
                         print(Style.BRIGHT + Back.BLUE + Fore.RED +
                               f'In contact {name} append '
                               f'{[phone.value for phone in record.phones]}')
-                    elif change == 2:
+                    elif change == '2':
                         mail = input(Style.BRIGHT+Fore.CYAN +
                                      'Enter new email: ')
                         record.create_email(record=record, user_email=mail)
                         print(Back.BLUE + Fore.RED +
                               f'In contact {name} change or append email '
                               f'{record.email.value}')
-                    elif change == 3:
+                    elif change == '3':
                         birthday = input(Style.BRIGHT+Fore.CYAN +
                                          'Enter new date: ')
                         record.create_birthday(record=record,
@@ -359,13 +364,15 @@ class CommandsHandler:
                             Style.BRIGHT + Back.BLUE + Fore.RED +
                             f'In contact {name} change or append date birthday'
                             f'{record.birthday.value}')
-                    elif change == 4:
+                    elif change == '4':
                         new_name = input(Style.BRIGHT+Fore.CYAN +
                                          'Enter new name: ')
                         record.name = Name(new_name)
                         update_name_data[name] = new_name
-                        print(record.name.value)
-                    elif change == 5:
+                        print("\033[3m\033[33m\033[41m{}\033[0m".format
+                              ('Contact name changed to:'), Style.BRIGHT +
+                              Fore.LIGHTGREEN_EX + record.name.value)
+                    elif change == '5':
                         num = input(Style.BRIGHT+Fore.CYAN +
                                     'Enter number: ')
                         record.create_phone(record=record, user_input=num,
@@ -373,7 +380,7 @@ class CommandsHandler:
                         print(Style.BRIGHT + Back.BLUE + Fore.RED +
                               f'In contact {name} update '
                               f'{[phone.value for phone in record.phones]}')
-                    elif change == 6:
+                    elif change == '6':
                         new_address = input(Style.BRIGHT+Fore.CYAN +
                                             'Enter new address: ')
                         record.home_address_create(record=record,
@@ -381,18 +388,19 @@ class CommandsHandler:
                         print(
                             Style.BRIGHT + Back.BLUE + Fore.RED +
                             f'In contact {name} change or append home address'
-                            f'{record.home_address.value}')
+                            f' {record.home_address.value}')
                     else:
                         print(Style.BRIGHT+Fore.RED +
                               f'{change} invalid choice')
                         return
-                else:
-                    print(Style.BRIGHT+Fore.RED + "User not fount")
             for name, new_name in update_name_data.items():
                 self.address_book.data[new_name] = \
                     self.address_book.data.pop(name)
             if flag:
                 self.address_book.save_contacts()
+            else:
+                print("\033[4m\033[31m\033[45m{}\033[0m".format
+                      ("User not fount"))
 
     def remove_contacts(self):
         remove_commands = PrettyTable()
@@ -408,6 +416,7 @@ class CommandsHandler:
                                 'to be deleted: ')
             self.address_book.data.pop(remove_user)
             print(Style.BRIGHT+Fore.RED + f'Contact {remove_user} deleted.')
+            self.address_book.save_contacts()
         elif remove_date == 'del all':
             print(Style.BRIGHT+Fore.RED+f'Are you sure you want to '
                                         f'clear the Address Book?')
@@ -416,7 +425,9 @@ class CommandsHandler:
                 return
             elif question == 'y':
                 self.address_book.data.clear()
-        self.address_book.save_contacts()
+            self.address_book.save_contacts()
+        else:
+            print(Style.BRIGHT + Fore.RED + f'Invalid command')
 
 
 # ------------------------------------------------ADAPTER-------------------------------------------------------

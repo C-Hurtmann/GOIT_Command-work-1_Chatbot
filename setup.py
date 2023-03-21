@@ -11,4 +11,3 @@ setup(
     install_requires=['inquirer', 'colorama'],
     entry_points={'console_scripts': ['helper = bot.interface:main']}
 )
-

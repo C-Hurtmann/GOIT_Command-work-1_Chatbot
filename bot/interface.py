@@ -33,10 +33,10 @@ def main():
         elif main_choice == 'Sorter Assist':
             handler = Handler(**sa_config)
             handler.run()
-        
         elif main_choice == 'Exit':
             print("Exiting program...")
             break
+
 
 if __name__ == '__main__':
     main()

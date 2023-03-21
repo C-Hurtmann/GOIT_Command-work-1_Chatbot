@@ -1,9 +1,9 @@
 import inquirer
 
-from address_book import CONFIG as ab_config
-from notebook import CONFIG as nb_config
-from cleaner import CONFIG as sa_config
-from handler import Handler
+from bot.address_book import CONFIG as ab_config
+from bot.notebook import CONFIG as nb_config
+from bot.cleaner import CONFIG as sa_config
+from bot.handler import Handler
 
 
 main_menu = [

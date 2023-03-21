@@ -6,7 +6,8 @@ extensions = {'video': ['mp4', 'mov', 'avi', 'mkv'],
               'audio': ['mp3', 'wav', 'ogg', 'amr'],
               'images': ['jpg', 'png', 'jpeg', 'svg'],
               'archives': ['zip', 'gz', 'tar'],
-              'documents': ['pdf', 'txt', 'doc', 'docx', 'xlsx', 'pptx', 'odt']
+              'documents': ['pdf', 'txt', 'doc', 'docx', 'xlsx', 'pptx', 'odt'],
+              'others': []
 }
 
 CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ#$%&()^+-:;<=>?@[\]{|`~}!"
@@ -21,15 +22,18 @@ for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION):
     TRANS[ord(c.upper())] = l.upper()
 
 def normalize(name):
-    name = Path(name).name #  DO NOT TOUCH
+    name = Path(name).name 
+
     new_name = name.translate(TRANS)
     return new_name 
 
 def create_folders_from_list(folder_path, folder_names):
     for folder in folder_names:
         try:
-            if not os.path.exists(f'{folder_path}/{folder}'):# or not os.path.exists(f'{folder_path}\\{folder}'):
-                os.mkdir(f'{folder_path}/{folder}')# or os.mkdir(f'{folder_path}\\{folder}')
+
+            if not os.path.exists(f'{folder_path}/{folder}'):
+                os.mkdir(f'{folder_path}/{folder}')
+
         except FileExistsError:
             pass
 
@@ -38,17 +42,16 @@ subfolder_paths = []
 
 def paths (path, level = 1):
 
-
     names_dir = os.listdir(path) 
-
     
     file_paths.extend ([f.path for f in os.scandir(path) if not f.is_dir()])
 
     subfolder_paths.extend ([f.path for f in os.scandir(path) if f.is_dir()])
     for elem in names_dir:
-        if os.path.isdir(path + "/" + elem):# or os.path.isdir(path + "\\" + elem):
-           
-            paths (path + "/" + elem, level + 1)# or paths (path + "\\" + elem, level + 1) 
+
+        if os.path.isdir(path + "/" + elem):
+            paths (path + "/" + elem, level + 1)
+
            
     return file_paths, subfolder_paths
 
@@ -62,27 +65,31 @@ def sort_files(path):  # TODO create folder for files with unknown extention
     for file_path in file_paths:
         file_path = str(file_path)
         extension = file_path.split('.')[-1]
-        file_name = file_path.split('/')[-1]# or file_path.split('\\')[-1]
+
+        file_name = file_path.split('/')[-1]
+
        
         for dict_key_int in range(len(ext_list)):
             
             if extension in ext_list[dict_key_int][1]:
 
-                shutil.move(file_path, f'{path}/{ext_list[dict_key_int][0]}/{normalize(file_name)}')# or shutil.move(file_path, f'{path}\\{ext_list[dict_key_int][0]}\\{normalize(file_name)}')
 
-    for ar_file in os.listdir(path + "/" + "archives"): #or ar_file in os.listdir(path + "\\" + "archives"):
-
+                shutil.move(file_path, f'{path}/{ext_list[dict_key_int][0]}/{normalize(file_name)}')
+                
+    for ar_file in os.listdir(path + "/" + "archives"):
         try:
-            shutil.unpack_archive(path + "/" + "archives" + "/" + ar_file, path + "/" + "archives")# or shutil.unpack_archive(path + "\\" + "archives" + "\\" + ar_file, path + "\\" + "archives")
+            shutil.unpack_archive(path + "/" + "archives" + "/" + ar_file, path + "/" + "archives")
+            os.remove(path + "/" + "archives" + "/" + ar_file)
+
         except shutil.ReadError:
             pass
-        except UnboundLocalError:
-            pass
+        
        
     names_file = [name for name in os.listdir(path) if os.path.isfile(os.path.join(path,name))]
     for unkn_file in names_file:
-        shutil.move(path + "/" + unkn_file, path + "/" + normalize(unkn_file))# or shutil.move(path + "\\" + unkn_file, path + "\\" + normalize(unkn_file))                
-# TODO delete already unpacked archives
+
+        
+            shutil.move(path + "/" + unkn_file, path + "/" + "others" + "/" + normalize(unkn_file)) 
 
 def remove_empty_folders(main_path, level = 1):
     for p in subfolder_paths:
@@ -90,9 +97,9 @@ def remove_empty_folders(main_path, level = 1):
         if not os.listdir(p):
             try:
                 os.rmdir(p)
-                remove_empty_folders(main_path + "/" + p, level + 1) or remove_empty_folders(main_path + "\\" + p, level + 1)   
+                remove_empty_folders(main_path + "/" + p, level + 1)    
             except FileNotFoundError:
-               pass
+                pass
 
 
 
@@ -103,6 +110,12 @@ def sort():
     sort_files(main_path)
     remove_empty_folders (main_path)
     print (" Your files are sorted.\n","Deleting empty folders")
+    for name_dir in os.listdir(main_path):
+        print()
+        print (f"{name_dir.capitalize()}: ")
+        for name_fale in os.listdir(main_path + "/" + name_dir):
+            print (f"    - {name_fale}")
+
 
 
 # ------------------------------------------------ADAPTER-------------------------------------------------------
@@ -114,9 +127,11 @@ help = ('|You can use following commands:\n'
 commands = {'sort': sort,
             'back': ...}
 
+
+
 CONFIG = ({'help': help,
            'commands': commands})
 
+ 
 if __name__ == "__main__": 
     sort()
-

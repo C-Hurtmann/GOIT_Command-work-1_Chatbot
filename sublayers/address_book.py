@@ -263,9 +263,11 @@ class CommandsHandler:
                 rec_data = record.formatting_record(record)
                 if name.startswith(find_user):
                     flag = True
-                    print(f"Name: {name}, Phone: {rec_data['phone']}, "
-                          f"Email: {rec_data['email']}, "
-                          f"Birthday: {rec_data['birthday']}")
+                    find_list = f"|Name: {name}, Phone: {rec_data['phone']}," \
+                                f"Email: {rec_data['email']}," \
+                                f"Birthday: {rec_data['birthday']}," \
+                                f"Home address: {rec_data['home_address']}|"
+                    print("\033[1m\033[35m{}\033[0m".format(find_list))
                 phones = getattr(record, 'phones', '')
 
                 if phones:
@@ -331,7 +333,7 @@ class CommandsHandler:
                         ["Press 5", "Change contact phone number"])
                     change_commands.add_row(
                         ["Press 6", "Change contact home address"])
-                    print(change_commands)
+                    print("\033[1m\033[36m{}\033[0m".format(change_commands))
                     change = int(input(Style.BRIGHT+Fore.CYAN +
                                        'Enter your choice: '))
                     if change == 1:
@@ -394,13 +396,11 @@ class CommandsHandler:
 
     def remove_contacts(self):
         remove_commands = PrettyTable()
-        remove_commands.field_names = \
-            [Fore.RED+"Command entry", Fore.RED+"Command value"]
-        remove_commands.add_row(
-            [Fore.RED+"del", Fore.RED+"Delete one selected contact"])
-        remove_commands.add_row(
-            [Fore.RED+"del all", Fore.RED+"Delete all address book contacts"])
-        print(remove_commands)
+        remove_commands.field_names = ["Command entry", "Command value"]
+        remove_commands.add_row(["del", "Delete one selected contact"])
+        remove_commands.add_row(["del all",
+                                 "Delete all address book contacts"])
+        print("\033[1m\033[31m{}\033[0m".format(remove_commands))
         remove_date = input(Style.BRIGHT+Fore.YELLOW + 'Enter your choice: ')
         if remove_date == 'del':
             remove_user = input(Style.BRIGHT+Fore.YELLOW +

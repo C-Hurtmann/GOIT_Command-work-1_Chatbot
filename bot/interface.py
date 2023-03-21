@@ -17,7 +17,8 @@ main_menu = [
                   ])
 ]
 
-if __name__ =='__main__':
+
+def main():
     while True:
         main_choice = inquirer.prompt(main_menu)['option']
 

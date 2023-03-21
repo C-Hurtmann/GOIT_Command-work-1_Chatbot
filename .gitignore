@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+AddressBook.bin
+test folder
+NoteBook.bin

@@ -7,6 +7,10 @@ To intall, wright in your console:
 ~~~
 pip install GTTD
 ~~~
+For run tool, just type:
+~~~
+helper
+~~~
 
 ## Address Book
 

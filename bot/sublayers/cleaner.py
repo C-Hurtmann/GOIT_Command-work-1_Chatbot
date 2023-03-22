@@ -24,7 +24,15 @@ for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION):
     TRANS[ord(c.upper())] = l.upper()
 
 
-def normalize(name):
+def normalize(name) -> str:
+    '''converts from Cyrillic to Latin and replaces special characters with "_"
+    
+    Args:
+        name: any name's file
+    
+    Returns:
+        str: convert name to Latin
+    '''
     name = Path(name).name
 
     new_name = name.translate(TRANS)
@@ -32,6 +40,12 @@ def normalize(name):
 
 
 def create_folders_from_list(folder_path, folder_names):
+    '''creating folders if they don't exist
+    
+    Args:
+        folder_path: the path to the folder being sorted
+        folder_names: folder names taken from the dictionary"extensions[key]"
+    '''
     for folder in folder_names:
         try:
 
@@ -47,7 +61,15 @@ subfolder_paths = []
 
 
 def paths(path, level=1):
-
+    '''finds the path to attached files and folders
+    
+    Args: 
+        path: the path to the folder being sorted
+        level: level of nesting (int)
+        
+    Returns:
+        list: lists of paths to files and subfolders    
+    '''
     names_dir = os.listdir(path)
 
     file_paths.extend([f.path for f in os.scandir(path) if not f.is_dir()])
@@ -61,7 +83,11 @@ def paths(path, level=1):
 
 
 def sort_files(path):
-
+    '''sorts and arranges in folders
+    
+    Args:
+        path: the path to the folder being sorted 
+    '''
     ext_list = list(extensions.items())
 
     for file_path in file_paths:
@@ -91,6 +117,12 @@ def sort_files(path):
 
 
 def remove_empty_folders(main_path, level = 1):
+    '''deleted empty subfolders
+    
+    Args: 
+        main_path: the path to the folder being sorted
+        level: level of nesting (int)
+    '''    
     for p in subfolder_paths:
         p = str(p)
         if not os.listdir(p):
@@ -102,6 +134,7 @@ def remove_empty_folders(main_path, level = 1):
 
 
 def sort():
+    '''takes the path, runs the functons and outputs a report of the work done'''
     try:
         main_path = input(Fore.MAGENTA + "Enter path for folder: ")
         create_folders_from_list(main_path, extensions)

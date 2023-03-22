@@ -140,12 +140,12 @@ class CommandsHandler:
     notebook = Notebook()
 
     def add_note(self):
-        user_title = input(Style.BRIGHT+Fore.BLUE + "Enter a title: ")
+        user_title = input(Style.BRIGHT + Fore.BLUE + "Enter a title: ")
         record = Record(title=user_title)
         record.create_title(record=record, user_title=user_title)
-        user_text = input(Style.BRIGHT+Fore.BLUE + "Enter a text of note: ")
+        user_text = input(Style.BRIGHT + Fore.BLUE + "Enter a text of note: ")
         record.create_text(record=record, user_text=user_text)
-        user_tag = input(Style.BRIGHT+Fore.BLUE + "Enter a #tag: ")
+        user_tag = input(Style.BRIGHT + Fore.BLUE + "Enter a #tag: ")
         record.create_tag(record=record, user_tag=user_tag)
         self.notebook.add_record(record)
         self.notebook.save_notes()
@@ -192,7 +192,6 @@ class CommandsHandler:
     def sort_notes_by_tag(self):
         notes_tag = []
         notes_without_tag = []
-        res_list = []
         for name, record in self.notebook.items():
             if getattr(record, 'tags', ''):
                 notes_tag.append(record)
@@ -208,7 +207,7 @@ class CommandsHandler:
                                f"|Tag: {rec_data['#tag']}\n")
 
     def change_note(self):
-        change_user = input(Style.BRIGHT+Fore.CYAN + 'Enter title of note: ')
+        change_user = input(Style.BRIGHT + Fore.CYAN + 'Enter title of note: ')
         data = self.notebook.show_all_records()
         if not data:
             print("\033[4m\033[31m{}\033[0m".format
@@ -217,31 +216,30 @@ class CommandsHandler:
             flag = False
             update_title_data = {}
             for title, record in data.items():
-                rec_data = record.formatting_record(record)
                 if title.startswith(change_user):
                     flag = True
                     change_commands = PrettyTable()
                     change_commands.field_names = \
-                        [Style.BRIGHT+Fore.CYAN +
+                        [Style.BRIGHT + Fore.CYAN +
                          "Command entry", "Command value"]
                     change_commands.add_row(
-                        [Style.BRIGHT+Fore.CYAN +
+                        [Style.BRIGHT + Fore.CYAN +
                          "Press 1", "Add tag"])
                     change_commands.add_row(
-                        [Style.BRIGHT+Fore.CYAN +
+                        [Style.BRIGHT + Fore.CYAN +
                          "Press 2", "Change title of note"])
                     change_commands.add_row(
-                        [Style.BRIGHT+Fore.CYAN +
+                        [Style.BRIGHT + Fore.CYAN +
                          "Press 3", "Change text"])
                     change_commands.add_row(
                         [Style.BRIGHT + Fore.CYAN +
                          "Press 4", "Change tags"])
                     print(change_commands)
                     change = int(
-                        input(Style.BRIGHT+Fore.CYAN + 'Enter your choice: '))
+                        input(Style.BRIGHT + Fore.CYAN + 'Enter your choice: '))
                     if change == 1:
                         tag_add = input(
-                            Style.BRIGHT+Fore.CYAN + 'Enter a tag: ')
+                            Style.BRIGHT + Fore.CYAN + 'Enter a tag: ')
                         record.create_tag(record=record, user_tag=tag_add,
                                           update=False)
                         print(Style.BRIGHT + Fore.YELLOW +
@@ -256,7 +254,7 @@ class CommandsHandler:
                               f'In note title {title} was changed to '
                               f'{record.title.value}')
                     elif change == 3:
-                        text = input(Style.BRIGHT+Fore.CYAN +
+                        text = input(Style.BRIGHT + Fore.CYAN +
                                      'Enter a new text: ')
                         record.create_text(
                             record=record, user_text=text)
@@ -265,7 +263,7 @@ class CommandsHandler:
                               f'{record.text.value}')
                     elif change == 4:
                         tag_add = input(
-                            Style.BRIGHT+Fore.CYAN + 'Enter a tag: ')
+                            Style.BRIGHT + Fore.CYAN + 'Enter a tag: ')
                         record.create_tag(record=record, user_tag=tag_add,
                                           update=True)
                         print(Style.BRIGHT + Fore.YELLOW +
@@ -287,16 +285,16 @@ class CommandsHandler:
         remove_commands.add_row(["del all",
                                  "Delete all notes in Notebook"])
         print("\033[1m\033[31m{}\033[0m".format(remove_commands))
-        remove_date = input(Style.BRIGHT+Fore.RED + 'Enter your choice: ')
+        remove_date = input(Style.BRIGHT + Fore.RED + 'Enter your choice: ')
         if remove_date == 'del':
-            remove_note = input(Style.BRIGHT+Fore.YELLOW +
+            remove_note = input(Style.BRIGHT + Fore.YELLOW +
                                 'Enter a title of the note to be deleted: ')
             self.notebook.data.pop(remove_note)
-            print(Style.BRIGHT+Fore.RED + f'Note {remove_note} deleted.')
+            print(Style.BRIGHT + Fore.RED + f'Note {remove_note} deleted.')
         elif remove_date == 'del all':
-            print(Style.BRIGHT+Fore.RED +
+            print(Style.BRIGHT + Fore.RED +
                   f'Are you sure you want to clear the Notebook?')
-            question = input(Style.BRIGHT+Fore.RED +
+            question = input(Style.BRIGHT + Fore.RED +
                              'Y or N: ').lower().strip()
             if question == 'n':
                 return

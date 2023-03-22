@@ -2,9 +2,7 @@ import pickle
 from collections import UserDict
 from datetime import datetime, timedelta
 import re
-from colorama import init, Fore
-from colorama import Back
-from colorama import Style
+from colorama import init, Fore, Back, Style
 from prettytable import PrettyTable
 init(autoreset=True)
 
@@ -28,7 +26,7 @@ class AddressBook(UserDict):
         return self.data
 
     def iterate(self, n=1):
-        for key, value in self.data.items():
+        for key, _ in self.data.items():
             d_list = list(self.data.values())
             for i in range(0, len(d_list), n):
                 yield key, d_list[i:i + n]
@@ -60,10 +58,8 @@ class Record:
         if phone:
             self.phones.append(phone)
 
-
     def add_phone(self, phone):
         self.phones.append(phone)
-
 
     def create_phone(self, record, user_input=None, update=False):
         if user_input:
@@ -141,7 +137,6 @@ class Record:
                 "birthday": birthday_val, "home_address": home_address_val}
 
 
-
 class Field:
     def __init__(self, value):
         self._value = value
@@ -214,7 +209,7 @@ class CommandsHandler:
     address_book = AddressBook()
 
     def add_contacts(self):
-        user_name = input(Style.BRIGHT+Fore.BLUE + "Enter contact name: ")
+        user_name = input(Style.BRIGHT + Fore.BLUE + "Enter contact name: ")
         if not user_name:
             print("\033[4m\033[31m\033[45m{}\033[0m".format
                   ("Contact name is required"))
@@ -223,17 +218,17 @@ class CommandsHandler:
             name = Name(user_name)
         record = Record(name)
 
-        user_phone = input(Style.BRIGHT+Fore.BLUE + "Enter contact phone: ")
+        user_phone = input(Style.BRIGHT + Fore.BLUE + "Enter contact phone: ")
         record.create_phone(record=record, user_input=user_phone, update=True)
 
-        user_email = input(Style.BRIGHT+Fore.BLUE + "Enter contact email: ")
+        user_email = input(Style.BRIGHT + Fore.BLUE + "Enter contact email: ")
         record.create_email(record=record, user_email=user_email)
 
-        user_birthday = input(Style.BRIGHT+Fore.BLUE +
+        user_birthday = input(Style.BRIGHT + Fore.BLUE +
                               "Enter contact Birthday: ")
         record.create_birthday(record=record, user_birthday=user_birthday)
 
-        user_home_address = input(Style.BRIGHT+Fore.BLUE +
+        user_home_address = input(Style.BRIGHT + Fore.BLUE +
                                   "Enter contact home address: ")
         record.home_address_create(record=record,
                                    user_address=user_home_address)
@@ -254,7 +249,7 @@ class CommandsHandler:
                       f"Home address: {rec_data['home_address']}|")
 
     def find_contacts(self):
-        find_user = input(Style.BRIGHT+Fore.BLUE +
+        find_user = input(Style.BRIGHT + Fore.BLUE +
                           'Enter contact name or phone: ')
         data = self.address_book.show_all_records()
         if not data:
@@ -286,7 +281,7 @@ class CommandsHandler:
                        'not found.'))
 
     def birthday_contacts(self):
-        birth_user = int(input(Style.BRIGHT+Fore.BLUE +
+        birth_user = int(input(Style.BRIGHT + Fore.BLUE +
                                'Enter a number of days: '))
         flag = False
         now = datetime.now().date()
@@ -309,9 +304,8 @@ class CommandsHandler:
             print("\033[4m\033[31m\033[45m{}\033[0m".format
                   ('There are no birthdays in this range!'))
 
-
     def change_contacts(self):
-        change_user = input(Style.BRIGHT+Fore.CYAN + 'Enter contact name: ')
+        change_user = input(Style.BRIGHT + Fore.CYAN + 'Enter contact name: ')
         data = self.address_book.show_all_records()
         if not data:
             print("\033[4m\033[31m\033[45m{}\033[0m".format
@@ -320,7 +314,6 @@ class CommandsHandler:
             flag = False
             update_name_data = {}
             for name, record in data.items():
-                rec_data = record.formatting_record(record)
                 if name.startswith(change_user):
                     flag = True
                     change_commands = PrettyTable()
@@ -339,24 +332,24 @@ class CommandsHandler:
                     change_commands.add_row(
                         ["Press 6", "Change contact home address"])
                     print("\033[1m\033[36m{}\033[0m".format(change_commands))
-                    change = input(Style.BRIGHT+Fore.CYAN +
-                                       'Enter your choice: ')
+                    change = input(Style.BRIGHT + Fore.CYAN +
+                                   'Enter your choice: ')
                     if change == '1':
-                        num = input(Style.BRIGHT+Fore.CYAN + 'Enter number: ')
+                        num = input(Style.BRIGHT + Fore.CYAN + 'Enter number: ')
                         record.create_phone(record=record, user_input=num,
                                             update=False)
                         print(Style.BRIGHT + Back.BLUE + Fore.RED +
                               f'In contact {name} append '
                               f'{[phone.value for phone in record.phones]}')
                     elif change == '2':
-                        mail = input(Style.BRIGHT+Fore.CYAN +
+                        mail = input(Style.BRIGHT + Fore.CYAN +
                                      'Enter new email: ')
                         record.create_email(record=record, user_email=mail)
                         print(Back.BLUE + Fore.RED +
                               f'In contact {name} change or append email '
                               f'{record.email.value}')
                     elif change == '3':
-                        birthday = input(Style.BRIGHT+Fore.CYAN +
+                        birthday = input(Style.BRIGHT + Fore.CYAN +
                                          'Enter new date: ')
                         record.create_birthday(record=record,
                                                user_birthday=birthday)
@@ -365,7 +358,7 @@ class CommandsHandler:
                             f'In contact {name} change or append date birthday'
                             f'{record.birthday.value}')
                     elif change == '4':
-                        new_name = input(Style.BRIGHT+Fore.CYAN +
+                        new_name = input(Style.BRIGHT + Fore.CYAN +
                                          'Enter new name: ')
                         record.name = Name(new_name)
                         update_name_data[name] = new_name
@@ -373,7 +366,7 @@ class CommandsHandler:
                               ('Contact name changed to:'), Style.BRIGHT +
                               Fore.LIGHTGREEN_EX + record.name.value)
                     elif change == '5':
-                        num = input(Style.BRIGHT+Fore.CYAN +
+                        num = input(Style.BRIGHT + Fore.CYAN +
                                     'Enter number: ')
                         record.create_phone(record=record, user_input=num,
                                             update=True)
@@ -381,10 +374,10 @@ class CommandsHandler:
                               f'In contact {name} update '
                               f'{[phone.value for phone in record.phones]}')
                     elif change == '6':
-                        new_address = input(Style.BRIGHT+Fore.CYAN +
+                        new_address = input(Style.BRIGHT + Fore.CYAN +
                                             'Enter new address: ')
                         record.home_address_create(record=record,
-                                               user_address=new_address)
+                                                   user_address=new_address)
                         print(
                             Style.BRIGHT + Back.BLUE + Fore.RED +
                             f'In contact {name} change or append home address'
@@ -409,17 +402,17 @@ class CommandsHandler:
         remove_commands.add_row(["del all",
                                  "Delete all address book contacts"])
         print("\033[1m\033[31m{}\033[0m".format(remove_commands))
-        remove_date = input(Style.BRIGHT+Fore.YELLOW + 'Enter your choice: ')
+        remove_date = input(Style.BRIGHT + Fore.YELLOW + 'Enter your choice: ')
         if remove_date == 'del':
-            remove_user = input(Style.BRIGHT+Fore.YELLOW +
+            remove_user = input(Style.BRIGHT + Fore.YELLOW +
                                 'Enter the name of the contact '
                                 'to be deleted: ')
             self.address_book.data.pop(remove_user)
-            print(Style.BRIGHT+Fore.RED + f'Contact {remove_user} deleted.')
+            print(Style.BRIGHT + Fore.RED + f'Contact {remove_user} deleted.')
             self.address_book.save_contacts()
         elif remove_date == 'del all':
-            print(Style.BRIGHT+Fore.RED+f'Are you sure you want to '
-                                        f'clear the Address Book?')
+            print(Style.BRIGHT + Fore.RED + f'Are you sure you want to '
+                                            f'clear the Address Book?')
             question = input(Style.BRIGHT+Fore.RED+'Y or N: ').lower().strip()
             if question == 'n':
                 return
@@ -433,13 +426,13 @@ class CommandsHandler:
 # ------------------------------------------------ADAPTER-------------------------------------------------------
 
 help = ('|You can use following commands:\n'
-          '|add - Add new contact\n'
-          '|find - Find contact in Address Book\n'
-          '|show all - Shows the entire Address Book\n'
-          '|get bith - Show birthdays\n'
-          '|change - Change contact\n'
-          '|del - Delete contact from address book\n'
-          '|back - Closing the sublayer\n')
+        '|add - Add new contact\n'
+        '|find - Find contact in Address Book\n'
+        '|show all - Shows the entire Address Book\n'
+        '|get bith - Show birthdays\n'
+        '|change - Change contact\n'
+        '|del - Delete contact from address book\n'
+        '|back - Closing the sublayer\n')
 
 commands = {'add': CommandsHandler().add_contacts,
             'find': CommandsHandler().find_contacts,
@@ -451,5 +444,3 @@ commands = {'add': CommandsHandler().add_contacts,
 
 CONFIG = ({'help': help,
            'commands': commands})
-
-

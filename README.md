@@ -7,7 +7,7 @@ To intall, wright in your console:
 ~~~
 pip install GTTD
 ~~~
-For run tool, just type:
+For launch the tool, just type:
 ~~~
 helper
 ~~~

@@ -1,6 +1,9 @@
 import os
 import shutil
 from pathlib import Path
+from colorama import init, Fore
+
+init(autoreset=True)
 
 extensions = {'video': ['mp4', 'mov', 'avi', 'mkv'],
               'audio': ['mp3', 'wav', 'ogg', 'amr'],
@@ -36,6 +39,7 @@ def create_folders_from_list(folder_path, folder_names):
 
         except FileExistsError:
             pass
+
 
 file_paths = []
 subfolder_paths = []
@@ -104,18 +108,22 @@ def remove_empty_folders(main_path, level = 1):
 
 
 def sort():
-    main_path = input("Enter path for folder: ")
-    create_folders_from_list(main_path, extensions)
-    paths (main_path)
-    sort_files(main_path)
-    remove_empty_folders (main_path)
-    print (" Your files are sorted.\n","Deleting empty folders")
-    for name_dir in os.listdir(main_path):
-        print()
-        print (f"{name_dir.capitalize()}: ")
-        for name_fale in os.listdir(main_path + "/" + name_dir):
-            print (f"    - {name_fale}")
-
+    
+    try: 
+        main_path = input(Fore.MAGENTA + "Enter path for folder: ")    
+        create_folders_from_list(main_path, extensions)
+        paths (main_path)
+        sort_files(main_path)
+        remove_empty_folders (main_path)
+        print (Fore.MAGENTA + "Your files are sorted.\n" + "Deleting empty folders")
+        for name_dir in os.listdir(main_path):
+            print()
+            print (Fore.MAGENTA + f"{name_dir.capitalize()}: ")
+            for name_fale in os.listdir(main_path + "/" + name_dir):
+                print (Fore.CYAN + f"    - {name_fale}")
+    
+    except FileNotFoundError:
+            print (Fore.LIGHTRED_EX + "The path was wroning. Try again")
 
 
 # ------------------------------------------------ADAPTER-------------------------------------------------------

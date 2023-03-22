@@ -30,6 +30,3 @@ class Handler:
                 else:
                     print('Invalid command')
                     print(self.help)
-
-
-

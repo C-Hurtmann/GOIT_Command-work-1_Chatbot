@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 AddressBook.bin
 test folder
-Notebook.bin
+NoteBook.bin
+settings.json

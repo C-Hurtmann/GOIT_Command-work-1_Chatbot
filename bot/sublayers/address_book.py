@@ -5,6 +5,7 @@ import re
 from colorama import init, Fore
 from colorama import Back
 from colorama import Style
+from prettytable import PrettyTable
 init(autoreset=True)
 
 
@@ -58,7 +59,7 @@ class Record:
         self.home_address = home_address
         if phone:
             self.phones.append(phone)
-            # print(self.phones)
+
 
     def add_phone(self, phone):
         self.phones.append(phone)
@@ -109,8 +110,9 @@ class Record:
                                           "Enter contact Birthday: ")
 
     def home_address_create(self, record, user_address):
-        home_address = HomeAddress(user_address)
-        record.home_address = home_address
+        if user_address:
+            home_address = HomeAddress(user_address)
+            record.home_address = home_address
 
     def formatting_record(self, record):
         phones = getattr(record, 'phones', '')
@@ -208,53 +210,14 @@ class HomeAddress(Field):
     pass
 
 
-def main():
-    address_book = AddressBook()
-    print('-' * 52)
-    print('|You can use following commands:\n'
-          '|add - Add new contact\n'
-          '|find - Find contact in Address Book\n'
-          '|show all - Shows the entire Address Book\n'
-          '|get bith - Show birthdays\n'
-          '|change - Change contact\n'
-          '|del - Delete contact from address book\n'
-          '|close, exit, good bye or . - Closing the program\n')
-    print('-' * 52)
-    while True:
-        user_inp = input(Style.BRIGHT+Fore.BLUE +
-                         'Enter command: ').lower().strip()
-        user_exit_list = ['good bye', 'close', 'exit', '.']
-        if user_inp in user_exit_list:
-            print('Good bye!\n'
-                  'Your data has been successfully saved in the Address Book!')
-            break
-        elif user_inp == 'hello':
-            print(Style.BRIGHT+Fore.BLUE + 'How can I help you?')
-            continue
-        elif 'add' in user_inp:
-            CommandsHandler().add_contacts()
-        elif 'find' in user_inp:
-            CommandsHandler().find_contacts()
-        elif 'show all' in user_inp:
-            CommandsHandler().show_all_contacts()
-        elif 'get bith' in user_inp:
-            CommandsHandler().birthday_contacts()
-        elif 'change' in user_inp:
-            CommandsHandler().change_contacts()
-        elif 'del' in user_inp:
-            CommandsHandler().remove_contacts()
-        else:
-            print(Style.BRIGHT+Fore.RED+'Choose the right command!')
-            continue
-
-
 class CommandsHandler:
     address_book = AddressBook()
 
     def add_contacts(self):
         user_name = input(Style.BRIGHT+Fore.BLUE + "Enter contact name: ")
         if not user_name:
-            print(Style.BRIGHT+Fore.RED + "Contact name is required")
+            print("\033[4m\033[31m\033[45m{}\033[0m".format
+                  ("Contact name is required"))
             return
         else:
             name = Name(user_name)
@@ -280,7 +243,8 @@ class CommandsHandler:
     def show_all_contacts(self):
         data = self.address_book.show_all_records()
         if not data:
-            print(Style.BRIGHT+Fore.RED + 'The address book is empty.')
+            print("\033[4m\033[31m\033[45m{}\033[0m".format
+                  ('The address book is empty.'))
         else:
             for name, record in data.items():
                 rec_data = record.formatting_record(record)
@@ -294,26 +258,32 @@ class CommandsHandler:
                           'Enter contact name or phone: ')
         data = self.address_book.show_all_records()
         if not data:
-            print(Style.BRIGHT+Fore.RED+'The address book is empty.')
+            print("\033[4m\033[31m\033[45m{}\033[0m".format
+                  ('The address book is empty.'))
         else:
             flag = False
             for name, record in data.items():
                 rec_data = record.formatting_record(record)
                 if name.startswith(find_user):
                     flag = True
-                    print(f"Name: {name}, Phone: {rec_data['phone']}, "
-                          f"Email: {rec_data['email']}, "
-                          f"Birthday: {rec_data['birthday']}")
-                phone = getattr(record, 'phone', '')
-                if phone:
-                    if phone.value.startswith(find_user):
-                        flag = True
-                        print(f"Name: {name}, Phone: {rec_data['phone']}, "
-                              f"Email: {rec_data['email']}, "
-                              f"Birthday: {rec_data['birthday']}")
+                    find_list = f"|Name: {name}, Phone: {rec_data['phone']}," \
+                                f"Email: {rec_data['email']}," \
+                                f"Birthday: {rec_data['birthday']}," \
+                                f"Home address: {rec_data['home_address']}|"
+                    print("\033[1m\033[35m{}\033[0m".format(find_list))
+                phones = getattr(record, 'phones', '')
+
+                if phones:
+                    for phone in phones:
+                        if phone.value.startswith(find_user):
+                            flag = True
+                            print(f"Name: {name}, Phone: {rec_data['phone']}, "
+                                  f"Email: {rec_data['email']}, "
+                                  f"Birthday: {rec_data['birthday']}")
             if not flag:
-                print(Style.BRIGHT+Fore.RED+'Contact with this name or '
-                                            'phone number was not found.')
+                print("\033[4m\033[31m\033[45m{}\033[0m".format
+                      ('Contact with this name or phone number was '
+                       'not found.'))
 
     def birthday_contacts(self):
         birth_user = int(input(Style.BRIGHT+Fore.BLUE +
@@ -336,46 +306,56 @@ class CommandsHandler:
                           f"Email: {rec_data['email']}, "
                           f"Birthday: {rec_data['birthday']}")
         if not flag:
-            print(Style.BRIGHT+Fore.RED+
-                  'There are no birthdays in this range!')
+            print("\033[4m\033[31m\033[45m{}\033[0m".format
+                  ('There are no birthdays in this range!'))
 
 
     def change_contacts(self):
         change_user = input(Style.BRIGHT+Fore.CYAN + 'Enter contact name: ')
         data = self.address_book.show_all_records()
         if not data:
-            print(Style.BRIGHT+Fore.RED+'The address book is empty.')
+            print("\033[4m\033[31m\033[45m{}\033[0m".format
+                  ('The address book is empty.'))
         else:
             flag = False
+            update_name_data = {}
             for name, record in data.items():
                 rec_data = record.formatting_record(record)
                 if name.startswith(change_user):
                     flag = True
-                    print("-" * 50)
-                    print(f"|add phone - press 1|\n"
-                          f"|change email - press 2|\n"
-                          f"|change birthday - press 3|\n"
-                          f"|change name - press 4\n"
-                          f"|change phone number - press 5\n"
-                          f"|change home address - press 6")
-                    print("-" * 50)
-                    change = int(input(Style.BRIGHT+Fore.CYAN +
-                                       'Enter your choice: '))
-                    if change == 1:
+                    change_commands = PrettyTable()
+                    change_commands.field_names = \
+                        ["Command entry", "Command value"]
+                    change_commands.add_row(
+                        ["Press 1", "Add a phone number to a contact"])
+                    change_commands.add_row(
+                        ["Press 2", "Change contact email"])
+                    change_commands.add_row(
+                        ["Press 3", "Change contact birthday"])
+                    change_commands.add_row(
+                        ["Press 4", "Change contact name"])
+                    change_commands.add_row(
+                        ["Press 5", "Change contact phone number"])
+                    change_commands.add_row(
+                        ["Press 6", "Change contact home address"])
+                    print("\033[1m\033[36m{}\033[0m".format(change_commands))
+                    change = input(Style.BRIGHT+Fore.CYAN +
+                                       'Enter your choice: ')
+                    if change == '1':
                         num = input(Style.BRIGHT+Fore.CYAN + 'Enter number: ')
                         record.create_phone(record=record, user_input=num,
                                             update=False)
                         print(Style.BRIGHT + Back.BLUE + Fore.RED +
                               f'In contact {name} append '
                               f'{[phone.value for phone in record.phones]}')
-                    elif change == 2:
+                    elif change == '2':
                         mail = input(Style.BRIGHT+Fore.CYAN +
                                      'Enter new email: ')
                         record.create_email(record=record, user_email=mail)
                         print(Back.BLUE + Fore.RED +
                               f'In contact {name} change or append email '
                               f'{record.email.value}')
-                    elif change == 3:
+                    elif change == '3':
                         birthday = input(Style.BRIGHT+Fore.CYAN +
                                          'Enter new date: ')
                         record.create_birthday(record=record,
@@ -384,12 +364,15 @@ class CommandsHandler:
                             Style.BRIGHT + Back.BLUE + Fore.RED +
                             f'In contact {name} change or append date birthday'
                             f'{record.birthday.value}')
-                    elif change == 4:
+                    elif change == '4':
                         new_name = input(Style.BRIGHT+Fore.CYAN +
                                          'Enter new name: ')
                         record.name = Name(new_name)
-                        print(record.name.value)
-                    elif change == 5:
+                        update_name_data[name] = new_name
+                        print("\033[3m\033[33m\033[41m{}\033[0m".format
+                              ('Contact name changed to:'), Style.BRIGHT +
+                              Fore.LIGHTGREEN_EX + record.name.value)
+                    elif change == '5':
                         num = input(Style.BRIGHT+Fore.CYAN +
                                     'Enter number: ')
                         record.create_phone(record=record, user_input=num,
@@ -397,7 +380,7 @@ class CommandsHandler:
                         print(Style.BRIGHT + Back.BLUE + Fore.RED +
                               f'In contact {name} update '
                               f'{[phone.value for phone in record.phones]}')
-                    elif change == 6:
+                    elif change == '6':
                         new_address = input(Style.BRIGHT+Fore.CYAN +
                                             'Enter new address: ')
                         record.home_address_create(record=record,
@@ -405,16 +388,27 @@ class CommandsHandler:
                         print(
                             Style.BRIGHT + Back.BLUE + Fore.RED +
                             f'In contact {name} change or append home address'
-                            f'{record.home_address.value}')
+                            f' {record.home_address.value}')
                     else:
                         print(Style.BRIGHT+Fore.RED +
                               f'{change} invalid choice')
                         return
-            self.address_book.save_contacts()
+            for name, new_name in update_name_data.items():
+                self.address_book.data[new_name] = \
+                    self.address_book.data.pop(name)
+            if flag:
+                self.address_book.save_contacts()
+            else:
+                print("\033[4m\033[31m\033[45m{}\033[0m".format
+                      ("User not fount"))
 
     def remove_contacts(self):
-        print('|del - Delete user|\n'
-              '|del all - Clean Adress Book|')
+        remove_commands = PrettyTable()
+        remove_commands.field_names = ["Command entry", "Command value"]
+        remove_commands.add_row(["del", "Delete one selected contact"])
+        remove_commands.add_row(["del all",
+                                 "Delete all address book contacts"])
+        print("\033[1m\033[31m{}\033[0m".format(remove_commands))
         remove_date = input(Style.BRIGHT+Fore.YELLOW + 'Enter your choice: ')
         if remove_date == 'del':
             remove_user = input(Style.BRIGHT+Fore.YELLOW +
@@ -422,6 +416,7 @@ class CommandsHandler:
                                 'to be deleted: ')
             self.address_book.data.pop(remove_user)
             print(Style.BRIGHT+Fore.RED + f'Contact {remove_user} deleted.')
+            self.address_book.save_contacts()
         elif remove_date == 'del all':
             print(Style.BRIGHT+Fore.RED+f'Are you sure you want to '
                                         f'clear the Address Book?')
@@ -430,10 +425,13 @@ class CommandsHandler:
                 return
             elif question == 'y':
                 self.address_book.data.clear()
-        self.address_book.save_contacts()
+            self.address_book.save_contacts()
+        else:
+            print(Style.BRIGHT + Fore.RED + f'Invalid command')
 
 
 # ------------------------------------------------ADAPTER-------------------------------------------------------
+
 help = ('|You can use following commands:\n'
           '|add - Add new contact\n'
           '|find - Find contact in Address Book\n'
@@ -454,7 +452,4 @@ commands = {'add': CommandsHandler().add_contacts,
 CONFIG = ({'help': help,
            'commands': commands})
 
-
-if __name__ == "__main__":
-    main()
 

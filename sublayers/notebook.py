@@ -61,18 +61,11 @@ class Record:
         if user_tag:
             for _ in range(10):
                 tag = Tag(user_tag)
-                if tag.validate_tag(user_tag):
-                    if update:
-                        record.tags = [tag]
-                    else:
-                        record.add_tag(tag)
-                    break
+                if update:
+                    record.tags = [tag]
                 else:
-                    print(Style.BRIGHT+Fore.RED+"Incorrect #tag "
-                                                "format entered.\n"
-                          "Enter your #tag in the format '#...'")
-                    user_tag = input(Style.BRIGHT+Fore.BLUE +
-                                     "Enter #tag: ")
+                    record.add_tag(tag)
+                    break
 
     def create_text(self, record, user_text):
         text = Text(user_text)
@@ -143,10 +136,6 @@ class Tag(Field):
         if len(value) > 5:
             raise ValueError
 
-    def validate_tag(self, tag):
-        if not tag.startswith('#'):
-            raise ValueError
-
 
 class CommandsHandler:
     notebook = Notebook()
@@ -194,9 +183,9 @@ class CommandsHandler:
                     for tag in tags:
                         if tag.value.startswith(find_user):
                             flag = True
-                            print(f"|Title: {title}\n"
+                            print("\033[3m\033[35m{}\033[0m".format(f"|Title: {title}\n"
                                   f"|Text: {rec_data['text']}\n"
-                                  f"|Tag: {rec_data['#tag']}\n")
+                                                                    f"|Tag: {rec_data['#tag']}\n"))
             if not flag:
                 print(Style.BRIGHT+Fore.RED +
                       'Note with this title or #tag was not found.')

@@ -141,24 +141,6 @@ def remove_empty_folders(main_path, level = 1):
 
 
 def sort():
-<<<<<<< Updated upstream:sublayers/cleaner.py
-    
-    try: 
-        main_path = input(Fore.MAGENTA + "Enter path for folder: ")    
-        create_folders_from_list(main_path, extensions)
-        paths (main_path)
-        sort_files(main_path)
-        remove_empty_folders (main_path)
-        print (Fore.MAGENTA + "Your files are sorted.\n" + "Deleting empty folders")
-        for name_dir in os.listdir(main_path):
-            print()
-            print (Fore.MAGENTA + f"{name_dir.capitalize()}: ")
-            for name_fale in os.listdir(main_path + "/" + name_dir):
-                print (Fore.CYAN + f"    - {name_fale}")
-    
-    except FileNotFoundError:
-            print (Fore.LIGHTRED_EX + "The path was wroning. Try again")
-=======
     '''takes the path, runs the functons and outputs a report of the work done'''
     main_path = input("Enter path for folder: ")
     create_folders_from_list(main_path, extensions)
@@ -172,7 +154,7 @@ def sort():
         for name_fale in os.listdir(main_path + "/" + name_dir):
             print (f"    - {name_fale}")
 
->>>>>>> Stashed changes:bot/cleaner.py
+
 
 
 # ------------------------------------------------ADAPTER-------------------------------------------------------

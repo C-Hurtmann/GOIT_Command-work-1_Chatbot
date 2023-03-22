@@ -2,6 +2,9 @@ import difflib
 
 
 class Handler:
+    """take CONFIG file from modules.
+       Run commands, check user typos.
+    """
     def __init__(self, help, commands, database=None):
         self.database = database
         self.commands = commands

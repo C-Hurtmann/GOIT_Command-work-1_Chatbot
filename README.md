@@ -4,9 +4,9 @@ GTTD aka helper provides user Address Book, Note Book and Sorter Assist tools
 ## Installation
 For using this tool you have to install Python3.10+ version
 To intall, wright in your console:
-"""
+~~~
 pip install GTTD
-"""
+~~~
 
 ## Address Book
 

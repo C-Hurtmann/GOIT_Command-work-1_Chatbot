@@ -7,7 +7,8 @@ init(autoreset=True)
 
 class Notebook(UserDict):
     _instance = None
-
+    """Storage for Notes. Saves after any changes. Loads after entering in sublayer
+    """
     def __new__(cls, *args, **kwargs):
 
         if cls._instance is None:
@@ -46,6 +47,8 @@ class Notebook(UserDict):
 
 
 class Record:
+    """Keeps all info about note
+    """
     def __init__(self, title=None, text=None, tag=None):
         self.title = title
         self.text = text

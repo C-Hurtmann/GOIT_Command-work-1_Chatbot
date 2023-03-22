@@ -8,6 +8,8 @@ init(autoreset=True)
 
 
 class AddressBook(UserDict):
+    """Storage for Records. Saves after any changes. Loads after entering in sublayer
+    """
     _instance = None
 
     def __new__(cls, *args, **kwargs):
@@ -26,6 +28,11 @@ class AddressBook(UserDict):
         return self.data
 
     def iterate(self, n=1):
+        """Shows n Records in AddressBook
+
+        Args:
+            n (int, optional): Number of Records needs to show. Defaults to 1
+        """
         for key, _ in self.data.items():
             d_list = list(self.data.values())
             for i in range(0, len(d_list), n):
@@ -48,6 +55,8 @@ class AddressBook(UserDict):
 
 
 class Record:
+    """Keeps all info about users contact
+    """
     def __init__(self, name, phone=None, email=None, birthday=None,
                  home_address=None):
         self.name = name
@@ -59,9 +68,13 @@ class Record:
             self.phones.append(phone)
 
     def add_phone(self, phone):
+        """Adds new phone to the Record if phones field not empty
+        """
         self.phones.append(phone)
 
     def create_phone(self, record, user_input=None, update=False):
+        """Adds phone to the Record due it's initialization
+        """
         if user_input:
             for i in range(10):
                 phone = Phone(user_input)
@@ -79,6 +92,8 @@ class Record:
                                        "Enter contact phone: ")
 
     def create_email(self, record, user_email):
+        """Adds email to the Record due it's initialization
+        """
         if user_email:
             for i in range(10):
                 email = Email(user_email)
@@ -92,6 +107,8 @@ class Record:
                                        "Enter contact email: ")
 
     def create_birthday(self, record, user_birthday):
+        """Adds birthday date to the Record due it's initialization
+        """
         if user_birthday:
             for i in range(10):
                 birthday = Birthday(user_birthday)
@@ -106,11 +123,18 @@ class Record:
                                           "Enter contact Birthday: ")
 
     def home_address_create(self, record, user_address):
+        """Adds home address to the Record due it's initialization
+        """
         if user_address:
             home_address = HomeAddress(user_address)
             record.home_address = home_address
 
     def formatting_record(self, record):
+        """Collects all info of the Record
+
+        Returns:
+            dict: dict with all Reccord info. If somethig is empty fills 'atr is missing'
+        """
         phones = getattr(record, 'phones', '')
         if phones:
             p_l = [phone.value for phone in phones]
@@ -206,6 +230,9 @@ class HomeAddress(Field):
 
 
 class CommandsHandler:
+    """Needs for keeping AddressBook for all commands
+       All methods of this class goes to commands dict in CONFIG
+    """
     address_book = AddressBook()
 
     def add_contacts(self):

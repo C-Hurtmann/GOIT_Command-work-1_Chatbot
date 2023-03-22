@@ -24,13 +24,29 @@ for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION):
     TRANS[ord(c)] = l
     TRANS[ord(c.upper())] = l.upper()
 
-def normalize(name):
+def normalize(name) -> str:
+    '''converts from Cyrillic to Latin and replaces special characters with "_"
+    
+    Args:
+        name: any name's file
+    
+    Returns:
+        str: convert name to Latin
+        
+    '''
     name = Path(name).name 
 
     new_name = name.translate(TRANS)
     return new_name 
 
 def create_folders_from_list(folder_path, folder_names):
+    '''creating folders if they don't exist
+    
+    Args:
+        folder_path: the path to the folder being sorted
+        folder_names: folder names taken from the dictionary"extensions[key]"
+    
+    '''
     for folder in folder_names:
         try:
 
@@ -44,8 +60,17 @@ def create_folders_from_list(folder_path, folder_names):
 file_paths = []
 subfolder_paths = []
 
-def paths (path, level = 1):
-
+def paths (path, level = 1) -> list:
+    '''finds the path to attached files and folders
+    
+    Args: 
+        path: the path to the folder being sorted
+        level: level of nesting (int)
+        
+    Returns:
+        list: lists of paths to files and subfolders
+        
+    '''
     names_dir = os.listdir(path) 
     
     file_paths.extend ([f.path for f in os.scandir(path) if not f.is_dir()])
@@ -59,11 +84,14 @@ def paths (path, level = 1):
            
     return file_paths, subfolder_paths
 
-    
 
-
-def sort_files(path):  # TODO create folder for files with unknown extention
+def sort_files(path):  
+    '''sorts and arranges in folders
     
+    Args:
+        path: the path to the folder being sorted
+        
+    '''
     ext_list = list(extensions.items())
     
     for file_path in file_paths:
@@ -72,11 +100,9 @@ def sort_files(path):  # TODO create folder for files with unknown extention
 
         file_name = file_path.split('/')[-1]
 
-       
         for dict_key_int in range(len(ext_list)):
             
             if extension in ext_list[dict_key_int][1]:
-
 
                 shutil.move(file_path, f'{path}/{ext_list[dict_key_int][0]}/{normalize(file_name)}')
                 
@@ -90,12 +116,19 @@ def sort_files(path):  # TODO create folder for files with unknown extention
         
        
     names_file = [name for name in os.listdir(path) if os.path.isfile(os.path.join(path,name))]
+    
     for unkn_file in names_file:
-
-        
             shutil.move(path + "/" + unkn_file, path + "/" + "others" + "/" + normalize(unkn_file)) 
 
+
 def remove_empty_folders(main_path, level = 1):
+    '''deleted empty subfolders
+    
+    Args: 
+        main_path: the path to the folder being sorted
+        level: level of nesting (int)
+
+    '''
     for p in subfolder_paths:
         p = str (p)
         if not os.listdir(p):
@@ -108,6 +141,7 @@ def remove_empty_folders(main_path, level = 1):
 
 
 def sort():
+<<<<<<< Updated upstream:sublayers/cleaner.py
     
     try: 
         main_path = input(Fore.MAGENTA + "Enter path for folder: ")    
@@ -124,6 +158,21 @@ def sort():
     
     except FileNotFoundError:
             print (Fore.LIGHTRED_EX + "The path was wroning. Try again")
+=======
+    '''takes the path, runs the functons and outputs a report of the work done'''
+    main_path = input("Enter path for folder: ")
+    create_folders_from_list(main_path, extensions)
+    paths (main_path)
+    sort_files(main_path)
+    remove_empty_folders (main_path)
+    print (" Your files are sorted.\n","Deleting empty folders")
+    for name_dir in os.listdir(main_path):
+        print()
+        print (f"{name_dir.capitalize()}: ")
+        for name_fale in os.listdir(main_path + "/" + name_dir):
+            print (f"    - {name_fale}")
+
+>>>>>>> Stashed changes:bot/cleaner.py
 
 
 # ------------------------------------------------ADAPTER-------------------------------------------------------

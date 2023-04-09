@@ -1,10 +1,10 @@
 import inquirer
 
-from sublayers.addressbook import commands as ab_commands
-from sublayers.notebook import commands as nb_commands
-from sublayers.cleaner import commands as sa_commands
-from sublayers.game import commands as gm_commands
-from sublayers.handler import Handler
+from bot.sublayers.addressbook import commands as ab_commands
+from bot.sublayers.notebook import commands as nb_commands
+from bot.sublayers.cleaner import commands as sa_commands
+from bot.sublayers.game import commands as gm_commands
+from bot.sublayers.handler import Handler
 
 
 main_menu = [
